@@ -1,0 +1,67 @@
+<section data-ng-controller="BeneficiaryApplicationsController" ng-init="findOne()">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Edit Beneficiary</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <!-- main content-->
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-7">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{local.AddMember[lang]}}</h3>
+                </div>
+                <div class="panel-body">
+                    <form role="form" ng-submit="update()">
+                        <div class="form-group seventyfive">
+                            <label for="first_name">{{local.FirstName[lang]}}</label>
+                            <input type="text" class="form-control" ng-model="beneficiary.first_name" id="first_name" name="first_name" placeholder="{{local.FirstName[lang]}}">
+                        </div>
+                        <div class="form-group seventyfive">
+                            <label for="last_name">{{local.LastName[lang]}}</label>
+                            <input type="text" class="form-control" ng-model="beneficiary.last_name" id="last_name" name="last_name" placeholder="{{local.LastName[lang]}}">
+                        </div>
+                        <div class="form-group seventyfive">
+                            <label for="middle_name">{{local.MiddleName[lang]}}</label>
+                            <input type="text" class="form-control" ng-model="beneficiary.middle_name" id="middle_name" name="middle_name" placeholder="{{local.MiddleName[lang]}}">
+                        </div>
+                        <div class="form-group fifty">
+                            <label for="email">{{local.Email[lang]}}</label>
+                            <input type="email" class="form-control" ng-model="beneficiary.email" id="email" name="email" placeholder="{{local.Email[lang]}}">
+                        </div>
+                        <div class="form-group fifty">
+                            <label for="contact_no">{{local.ContactNumber[lang]}}</label>
+                            <input type="phone" class="form-control" ng-model="beneficiary.contact_no" id="contact_no" name="contact_no" placeholder="{{local.ContactNo[lang]}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="address1">{{local.Address1[lang]}}</label>
+                            <input type="text" class="form-control" ng-model="beneficiary.address1" id="address1" name="address1" placeholder="{{local.Address1[lang]}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="address2">{{local.Address2[lang]}}</label>
+                            <input type="text" class="form-control" ng-model="beneficiary.address2" id="address2" name="address2" placeholder="{{local.Address2[lang]}}">
+                        </div>
+                        <div class="form-group fifty">
+                            <label for="city">{{local.City[lang]}}</label>
+                            <input type="text" class="form-control" ng-model="beneficiary.city" id="city" name="city" placeholder="{{local.City[lang]}}">
+                        </div>
+                        <div class="form-group fifty">
+                            <label for="country">{{local.Country[lang]}}</label>{{country}}
+                            <select ng-model="beneficiary.country._id" name="country" id="country" class="form-control" ng-change="changeCountry(beneficiary.country._id)">
+                                <option ng-repeat="c in countries" value="{{c._id}}">{{c.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group twentyfive">
+                            <label for="zipcode">{{local.ZipCode[lang]}}</label>
+                            <input type="text" class="form-control" ng-model="beneficiary.zipcode" id="zipcode" name="zipcode" placeholder="{{local.ZipCode[lang]}}">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+
+                </div>
+            </div>
+        </div><!--  column 12 -->
+    </div>
+</section>

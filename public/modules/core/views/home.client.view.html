@@ -1,0 +1,165 @@
+<section data-ng-controller="HomeController">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Kineo Back Office</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+
+    <!-- main content-->
+    <div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Recently Used
+                </h3>
+            </div>
+            <div class="panel-body">
+
+                <ul class="latestused" type="none">
+                    <li class=""  ng-repeat="action in authentication.user.last_action | orderBy:'_id':true"><span>{{$index+1}}</span> <a href="#!/{{action.Url}}">{{action.Title}}</a></li>
+                    <li ng-show="authentication.user.last_action.length==0">No Action</li>
+                </ul>
+          
+                
+            </div>
+        </div>
+    </div><!--  column 12 -->
+        <div class="col-md-12">
+            <div class="panel panel-default withtable">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{local.LatestTransactions[lang]}}</h3>
+                </div>
+                <div class="panel-body">
+                    <tabset>
+                        <tab ng-init="findLoans()" heading="Loans Payments">
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead>
+                                <tr>
+                                    <th><a href="" ng-click="sortBy('date_created')">{{local.DateCreated[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='date_created','fa-sort-asc':sort=='date_created'&&by,'fa-sort-desc':sort=='date_created'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('reference_no')">{{local.ReferenceCode[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='reference_no','fa-sort-asc':sort=='reference_no'&&by,'fa-sort-desc':sort=='reference_no'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('member.first_name')">{{local.MemberName[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='member.first_name','fa-sort-asc':sort=='member.first_name'&&by,'fa-sort-desc':sort=='member.first_name'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('account_number')">{{local.AccountNumber[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='account_number','fa-sort-asc':sort=='account_number'&&by,'fa-sort-desc':sort=='account_number'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('amount')">{{local.Amount[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='amount','fa-sort-asc':sort=='amount'&&by,'fa-sort-desc':sort=='amount'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('status')">{{local.Status[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='status','fa-sort-asc':sort=='status'&&by,'fa-sort-desc':sort=='status'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('date_updated')">{{local.DateModified[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='date_updated','fa-sort-asc':sort=='date_updated'&&by,'fa-sort-desc':sort=='date_updated'&&!by}"></i></a></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="transaction in transactions['LOAN PAYMENTS']">
+                                    <td>{{transaction.date_created | date:'MMM dd yyyy H:mm'}}</td>
+                                    <td>{{transaction.reference_no}}</td>
+                                    <td>{{transaction.member.first_name}} {{transaction.member.last_name}}</td>
+                                    <td>{{transaction.account_number}}</td>
+                                    <td>{{transaction.amount}}</td>
+                                    <td>{{transaction.status}}</td>
+                                    <td>{{transaction.date_updated | date:'MMM dd yyyy H:mm'}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div ng-if="transactions['LOAN PAYMENTS'].length==0" class="alert alert-info alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                No data available.
+                            </div>
+                        </tab>
+                        <tab ng-init="findRemittances()" heading="Remittance">
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead>
+                                <tr>
+                                    <th><a href="" ng-click="sortBy('date_created')">{{local.DateCreated[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='date_created','fa-sort-asc':sort=='date_created'&&by,'fa-sort-desc':sort=='date_created'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('reference_no')">{{local.ReferenceCode[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='reference_no','fa-sort-asc':sort=='reference_no'&&by,'fa-sort-desc':sort=='reference_no'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('member.first_name')">{{local.SenderName[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='member.first_name','fa-sort-asc':sort=='member.first_name'&&by,'fa-sort-desc':sort=='member.first_name'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('remitted_to.first_name')">{{local.RecipientName[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='remitted_to.first_name','fa-sort-asc':sort=='remitted_to.first_name'&&by,'fa-sort-desc':sort=='remitted_to.first_name'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('amount')">{{local.Amount[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='amount','fa-sort-asc':sort=='amount'&&by,'fa-sort-desc':sort=='amount'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('payout_method')">{{local.PayoutMethod[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='payout_method','fa-sort-asc':sort=='payout_method'&&by,'fa-sort-desc':sort=='payout_method'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('date_modified')">{{local.DateModified[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='date_updated','fa-sort-asc':sort=='date_updated'&&by,'fa-sort-desc':sort=='date_updated'&&!by}"></i></a></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="transaction in transactions['REMITTANCE']">
+                                    <td>{{transaction.date_created | date:'MMM dd yyyy H:mm'}}</td>
+                                    <td>{{transaction.reference_no}}</td>
+                                    <td>{{transaction.member.first_name}} {{transaction.member.last_name}}</td>
+                                    <td>{{transaction.remitted_to.first_name}} {{transaction.remitted_to.last_name}}</td>
+                                    <td>{{transaction.amount}}</td>
+                                    <td>{{transaction.payout_method.name}}</td>
+                                    <td>{{transaction.date_updated | date:'MMM dd yyyy H:mm'}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div ng-if="transactions['REMITTANCE'].length==0" class="alert alert-info alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                No data available.
+                            </div>
+                        </tab>
+                        <tab ng-init="findPayBills()" heading="Bills Payments">
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead>
+                                <tr>
+                                    <th><a href="" ng-click="sortBy('date_created')">{{local.DateCreated[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='date_created','fa-sort-asc':sort=='date_created'&&by,'fa-sort-desc':sort=='date_created'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('reference_no')">{{local.ReferenceCode[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='reference_no','fa-sort-asc':sort=='reference_no'&&by,'fa-sort-desc':sort=='reference_no'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('member.first_name')">{{local.MemberName[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='member.first_name','fa-sort-asc':sort=='member.first_name'&&by,'fa-sort-desc':sort=='member.first_name'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('paid_bill_to.biller.name')">{{local.BillerName[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='paid_bill_to.biller.name','fa-sort-asc':sort=='paid_bill_to.biller.name'&&by,'fa-sort-desc':sort=='paid_bill_to.biller.name'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('amount')">{{local.Amount[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='amount','fa-sort-asc':sort=='amount'&&by,'fa-sort-desc':sort=='amount'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('status')">{{local.Status[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='status','fa-sort-asc':sort=='status'&&by,'fa-sort-desc':sort=='status'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('date_updated')">{{local.DateModified[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='date_updated','fa-sort-asc':sort=='date_updated'&&by,'fa-sort-desc':sort=='date_updated'&&!by}"></i></a></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="transaction in transactions['BILLS PAYMENT']">
+                                    <td>{{transaction.date_created | date:'MMM dd yyyy H:mm'}}</td>
+                                    <td>{{transaction.reference_no}}</td>
+                                    <td>{{transaction.member.first_name}} {{transaction.member.last_name}}</td>
+                                    <td>{{transaction.paid_bill_to.biller.name}}</td>
+                                    <td>{{transaction.amount}}</td>
+                                    <td>{{transaction.status}}</td>
+                                    <td>{{transaction.date_updated | date:'MMM dd yyyy H:mm'}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div ng-if="transactions['BILLS PAYMENT'].length==0" class="alert alert-info alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                No data available.
+                            </div>
+                        </tab>
+                        <tab ng-init="findTopUps()" heading="Top Ups">
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead>
+                                <tr>
+                                    <th><a href="" ng-click="sortBy('date_created')">{{local.DateCreated[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='date_created','fa-sort-asc':sort=='date_created'&&by,'fa-sort-desc':sort=='date_created'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('reference_no')">{{local.ReferenceCode[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='reference_no','fa-sort-asc':sort=='reference_no'&&by,'fa-sort-desc':sort=='reference_no'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('member.first_name')">{{local.MemberName[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='member.first_name','fa-sort-asc':sort=='member.first_name'&&by,'fa-sort-desc':sort=='member.first_name'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('amount')">{{local.AmountPaid[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='amount','fa-sort-asc':sort=='amount'&&by,'fa-sort-desc':sort=='amount'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('status')">{{local.Status[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='status','fa-sort-asc':sort=='status'&&by,'fa-sort-desc':sort=='status'&&!by}"></i></a></th>
+                                    <th><a href="" ng-click="sortBy('date_updated')">{{local.DateModified[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='date_updated','fa-sort-asc':sort=='date_updated'&&by,'fa-sort-desc':sort=='date_updated'&&!by}"></i></a></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="transaction in transactions['TOPUP']">
+                                    <td>{{transaction.date_created | date:'MMM dd yyyy H:mm'}}</td>
+                                    <td>{{transaction.reference_no}}</td>
+                                    <td>{{transaction.member.first_name}} {{transaction.member.last_name}}</td>
+                                    <td>{{transaction.amount}}</td>
+                                    <td>{{transaction.status}}</td>
+                                    <td>{{transaction.date_updated | date:'MMM dd yyyy H:mm'}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div ng-if="transactions['TOPUP'].length==0" class="alert alert-info alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                No data available.
+                            </div>
+                        </tab>
+                    </tabset>
+                </div>
+            </div>
+        </div><!--  column 12 -->
+
+    </div>
+
+
+
+</section>

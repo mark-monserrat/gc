@@ -1,0 +1,92 @@
+<section data-ng-controller="EmployeetypesController" data-ng-init="find()">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Employee Types</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+
+
+    <!-- main content-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default withtable">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Employee Types</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row tableoptions">
+                        <div class="col-md-12">
+
+                            <form class="form-inline pull-right" role="form">
+                                <div class="form-group">
+                                    <a href="/#!/employees/types/create" type="" class="btn btn-primary"><i class="fa fa-plus"> New Employee Type</i></a>
+                                </div>
+                                <div class="form-group tablesearch">
+                                    <div class="input-group custom-search-form">
+                                        <input type="text" class="form-control" placeholder="Search...">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </span>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+
+
+
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th><a href="" ng-click="sortBy('name')">{{local.EmployeeType[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='first_name','fa-sort-asc':sort=='first_name'&&by,'fa-sort-desc':sort=='first_name'&&!by}"></i></a></th>
+                            <th>{{local.Action[lang]}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-ng-repeat="employeetype in employeetypes">
+                            <td>{{employeetype.name}}</td>
+                            <td class="action">
+                                <a data-ng-href="/#!/employees/types/{{employeetype._id}}/edit" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
+                                <a data-ng-click="remove(employeetype);" href="" data-toggle="modal" class="btn btn-primary btn-xs"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div ng-if="employeetypes.length==0" class="alert alert-info alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        No data available.
+                    </div>
+                    <pagination ng-show="totalItems>pageLimit" class="pull-right" ng-change="populate()" boundary-links="true" items-per-page="pageLimit" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                </div>
+            </div>
+        </div><!--  column 12 -->
+    </div>
+
+
+
+    </div>
+    <!--<div class="page-header">-->
+        <!--<h1>Employeetypes</h1>-->
+    <!--</div>-->
+    <!--<div class="list-group">-->
+        <!--<a data-ng-repeat="employeetype in employeetypes" data-ng-href="#!/employeetypes/{{employeetype._id}}" class="list-group-item">-->
+			<!--<small class="list-group-item-text">-->
+				<!--Posted on-->
+				<!--<span data-ng-bind="employeetype.created | date:'MMM dd yyyy H:mm'"></span>-->
+				<!--by-->
+				<!--<span data-ng-bind="employeetype.user.displayName"></span>-->
+			<!--</small>-->
+			<!--<h4 class="list-group-item-heading" data-ng-bind="employeetype.name"></h4>-->
+        <!--</a>-->
+    <!--</div>-->
+    <!--<div class="alert alert-warning text-center" data-ng-hide="!employeetypes.$resolved || employeetypes.length">-->
+    	<!--No Employeetypes yet, why don't you <a href="/#!/employeetypes/create">create one</a>?-->
+    <!--</div>-->
+</section>

@@ -1,0 +1,137 @@
+<section data-ng-controller="BillersController" data-ng-init="find()">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Billers Application</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+
+
+    <!-- main content-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default withtable">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Billers List</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row tableoptions">
+                        <div class="col-md-12">
+
+                            <form class="form-inline pull-right" role="form">
+                                <div class="form-group">
+                                    <select name="" id="input" class="form-control" required="required">
+                                        <option value="">--Select--</option>
+                                    </select>
+                                </div>
+                                <div class="form-group tablesearch">
+                                    <div class="input-group custom-search-form">
+                                        <input type="text" class="form-control" placeholder="Search...">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </span>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+
+
+
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>Created On</th>
+                            <th>Applicants Name</th>
+                            <th>Billers Name</th>
+                            <th>Account Name</th>
+                            <th>Account Number</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>May 1, 2014 - 9:00 AM</td>
+                            <td>Juan dela Cruz</td>
+                            <td>Globe</td>
+                            <td>Juan dela Cruz</td>
+                            <td>35-15551-26997</td>
+                            <td>Pending</td>
+                            <td class="action">
+                                <a href="" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
+                                <a href="" class="btn btn-primary btn-xs"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>April 30, 2014 - 9:00 AM</td>
+                            <td>Juan dela Cruz</td>
+                            <td>Meralco</td>
+                            <td>Juan dela Cruz</td>
+                            <td>35-15551-26997</td>
+                            <td>Pending</td>
+                            <td class="action">
+                                <a href="" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
+                                <a href="" class="btn btn-primary btn-xs"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>April 30, 2014 - 9:00 AM</td>
+                            <td>Juan dela Cruz</td>
+                            <td>PLDT</td>
+                            <td>Juan dela Cruz</td>
+                            <td>35-15551-26997</td>
+                            <td>Pending</td>
+                            <td class="action">
+                                <a href="" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
+                                <a href="" class="btn btn-primary btn-xs"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>May 1, 2014 - 9:00 AM</td>
+                            <td>Juan dela Cruz</td>
+                            <td>Smart Telco</td>
+                            <td>Juan dela Cruz</td>
+                            <td>35-15551-26997</td>
+                            <td>Pending</td>
+                            <td class="action">
+                                <a href="" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
+                                <a href="" class="btn btn-primary btn-xs"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                        </tr>
+
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div><!--  column 12 -->
+    </div>
+
+
+    <!--<div class="page-header">-->
+        <!--<h1>Billers</h1>-->
+    <!--</div>-->
+    <!--<div class="list-group">-->
+        <!--<a data-ng-repeat="biller in billers" data-ng-href="#!/billers/{{biller._id}}" class="list-group-item">-->
+			<!--<small class="list-group-item-text">-->
+				<!--Posted on-->
+				<!--<span data-ng-bind="biller.created | date:'MMM dd yyyy H:mm'"></span>-->
+				<!--by-->
+				<!--<span data-ng-bind="biller.user.displayName"></span>-->
+			<!--</small>-->
+			<!--<h4 class="list-group-item-heading" data-ng-bind="biller.name"></h4>-->
+        <!--</a>-->
+    <!--</div>-->
+    <!--<div class="alert alert-warning text-center" data-ng-hide="!billers.$resolved || billers.length">-->
+    	<!--No Billers yet, why don't you <a href="/#!/billers/create">create one</a>?-->
+    <!--</div>-->
+</section>

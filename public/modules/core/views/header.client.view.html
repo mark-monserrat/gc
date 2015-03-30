@@ -1,0 +1,60 @@
+<div class="container" data-ng-controller="HeaderController">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="main.html"><img class="logo-small" src="/modules/core/img/logo-sm.png" alt=""></a>
+        </div>
+        <!-- /.navbar-header -->
+        <ul data-ng-show="user" class="nav navbar-top-links navbar-right pull-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="/#!/settings/profile"><i class="fa fa-user fa-fw"></i> Edit Profile</a>
+                    </li>
+                    <li><a href="/#!/settings/password"><i class="fa fa-lock fa-fw"></i> Change Password</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="/auth/signout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+        <!-- /.navbar-top-links -->
+
+        <div data-ng-show="user" class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul id="side-menu" side-menu="user" class="nav">
+                    <li class="logo-large">
+                        <a href="#!/"><img src="/modules/core/img/logo-lg.png" alt=""></a>
+                    </li>
+                    <li>
+                        <a href="#!/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                    </li>
+                    <li data-ng-repeat="item in menu.items | orderBy:'menuOrder'" data-ng-if="item.shouldRender(user);" ng-switch="item.menuItemType" ui-route="{{item.uiRoute}}" ng-class="{active: ($uiRoute)}">
+                        <a href="#" ng-switch-when="dropdown">
+                            <i class="fa fa-{{item.menuIcon}} fa-fw"></i>
+                            <span data-ng-bind="item.title"></span><span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li data-ng-repeat="subitem in item.items" data-ng-if="subitem.shouldRender(user);" ui-route="{{subitem.uiRoute}}" ng-class="{active: $uiRoute}">
+                                <a href="/#!/{{subitem.link}}" data-ng-bind="subitem.title"></a>
+                            </li>
+                        </ul>
+                        <a ng-switch-default href="/#!/{{item.link}}" data-ng-bind="item.title"></a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>
+</div>

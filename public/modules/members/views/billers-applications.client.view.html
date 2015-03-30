@@ -1,0 +1,145 @@
+<section data-ng-controller="BillersApplicationController" ng-init="find()" last-action title="Billers Application Listing" url="members/billers-applications">
+    <script type="text/ng-template" id="MemberDetails">
+        <div class="modal-header">
+            <h3 class="modal-title">{{local.MemberDetails[lang]}}</h3>
+        </div>
+        <div class="modal-body">
+            <table class="table sum">
+                <thead>
+                <tr>
+                    <th colspan="2">Details</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{local.Name[lang]}}</td>
+                    <td>{{data.member_name}}</td>
+                </tr>
+                <tr>
+                    <td>{{local.MicroFinnancingServiceProvider[lang]}}</td>
+                    <td>{{data.microfinance.name}}</td>
+                </tr>
+                <tr>
+                    <td>{{local.RemittanceServiceProvider[lang]}}</td>
+                    <td>{{data.remittance.name}}</td>
+                </tr>
+                <tr>
+                    <td>{{local.Email[lang]}}</td>
+                    <td>{{data.email}}</td>
+                </tr>
+                <tr>
+                    <td>{{local.ContactNumber[lang]}}</td>
+                    <td>{{data.contact_no}}</td>
+                </tr>
+                <tr>
+                    <td>{{local.Address1[lang]}}</td>
+                    <td>{{data.address1}}</td>
+                </tr>
+                <tr>
+                    <td>{{local.Address2[lang]}}</td>
+                    <td>{{data.address2}}</td>
+                </tr>
+                <tr>
+                    <td>{{local.City[lang]}}</td>
+                    <td>{{data.city}}</td>
+                </tr>
+                <tr>
+                    <td>{{local.Country[lang]}}</td>
+                    <td>{{data.country_name}}</td>
+                </tr>
+                <tr>
+                    <td>{{local.ZipCode[lang]}}</td>
+                    <td>{{data.zipcode}}</td>
+                </tr>
+                <tr>
+                    <td>{{local.Status[lang]}}</td>
+                    <td>{{data.status}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+        </div>
+    </script>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Billers Application</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+
+
+    <!-- main content-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default withtable">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Billers List</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row tableoptions">
+                        <div class="col-md-12">
+
+                            <form class="form-inline pull-right" role="form">
+                                <div class="form-group">
+                                    <select ng-change="statusFilter()" id="status" data-ng-model="status" class="form-control input-sm">
+                                        <option ng-selected="s.value===status" ng-repeat="s in statuses" value="{{s.value}}">{{s.label}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group tablesearch">
+                                    <div class="input-group custom-search-form">
+                                        <input type="text" class="form-control" placeholder="Search...">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </span>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th><a href="" ng-click="sortBy('date_created')">{{local.CreatedOn[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='date_created','fa-sort-asc':sort=='date_created'&&by,'fa-sort-desc':sort=='date_created'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('member_name')">{{local.ApplicantsName[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='member_name','fa-sort-asc':sort=='member_name'&&by,'fa-sort-desc':sort=='member_name'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('biller_name')">{{local.BillerName[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='biller_name','fa-sort-asc':sort=='biller_name'&&by,'fa-sort-desc':sort=='biller_name'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('account_name')">{{local.AccountName[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='account_name','fa-sort-asc':sort=='account_name'&&by,'fa-sort-desc':sort=='account_name'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('account_number')">{{local.AccountNumber[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='account_number','fa-sort-asc':sort=='account_number'&&by,'fa-sort-desc':sort=='account_number'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('status')">{{local.Status[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='status','fa-sort-asc':sort=='status'&&by,'fa-sort-desc':sort=='status'&&!by}"></i></a></th>
+                            <th ng-show="status==='Pending'">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="memberbiller in billers">
+                            <td>{{memberbiller.date_created | date:'MMM dd yyyy H:mm'}}</td>
+                            <td><a href="" ng-click="open_member(memberbiller.member)">{{memberbiller.member_name}}</a></td>
+                            <td>{{memberbiller.biller_name}}</td>
+                            <td>{{memberbiller.account_name}}</td>
+                            <td>{{memberbiller.account_number}}</td>
+                            <td>{{memberbiller.status}}</td>
+                            <td class="action" ng-if="memberbiller.status==='Pending'">
+                                <div class="btn-group" ng-show="memberbiller.status==='Pending'">
+                                    <label ng-click="update(memberbiller,local.StatusApproved[lang])" ng-confirm-click="Are you sure you want to change the status to accepted?" class="btn btn-primary btn-xs" ng-model="memberbiller.status" btn-radio="local.StatusActive[lang]">{{local.StatusApprove[lang]}}</label>
+                                    <label ng-click="update(memberbiller,local.StatusRejected[lang])" ng-confirm-click="Are you sure you want to change the status to rejected?" class="btn btn-danger btn-xs" ng-model="memberbiller.status" btn-radio="local.StatusInActive[lang]">{{local.StatusReject[lang]}}</label>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div ng-if="billers.length==0" class="alert alert-info alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        No data available.
+                    </div>
+                    <pagination ng-show="totalItems>pageLimit" class="pull-right" ng-change="populate()" boundary-links="true" items-per-page="pageLimit" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                </div>
+            </div>
+        </div><!--  column 12 -->
+    </div>
+</section>

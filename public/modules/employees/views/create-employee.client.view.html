@@ -1,0 +1,145 @@
+<section data-ng-controller="EmployeesController" ng-init="init()" last-action title="Create Employee" url="employees/create">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Add Employee</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+    <div ng-if="error" class="col-lg-12">
+        <div class="row">
+            <div class="goalertmsg">
+                <ul> <i class="fa fa-warning"></i> Please complete the following fields
+                    <li ng-repeat="err in error">{{err}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="error.general" class="has-error col-md-12">
+        <div class="row">
+            <div ng-bind="error.general" class="goalert"></div>
+        </div>
+    </div>
+
+    <!-- main content-->
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Create Employee Profile</h3>
+                </div>
+                <div class="panel-body">
+                    <form name="frmEmployee" role="form" data-ng-submit="create()" novalidate>
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#one" data-toggle="tab">Profile</a></li>
+                            <li><a href="#two" data-toggle="tab">Privileges</a></li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="one">
+
+                                    <div class="form-group fifty" show-errors="">
+                                        <label for="first_name">{{local.FirstName[lang]}}</label>
+                                        <input required type="text" ng-model="employee.first_name" class="form-control" id="first_name" name="first_name" placeholder="{{local.FirstName[lang]}}">
+                                        <p class="help-block" ng-bind="error.first_name" ng-if="error.first_name"></p>
+                                    </div>
+                                    <div class="form-group fifty" show-errors>
+                                        <label for="last_name">{{local.LastName[lang]}}</label>
+                                        <input required type="text" ng-model="employee.last_name" class="form-control" id="last_name" name="contact" placeholder="{{local.LastName[lang]}}">
+                                        <p class="help-block" ng-bind="error.last_name" ng-if="error.last_name"></p>
+                                    </div>
+                                    <div class="form-group twentyfive" show-errors>
+                                        <label for="email">{{local.Email[lang]}}</label>
+                                        <input required type="email" ng-model="employee.email" class="form-control" id="email" name="email" placeholder="{{local.Email[lang]}}">
+                                        <p class="help-block" ng-bind="error.email" ng-if="error.email"></p>
+                                    </div>
+                                    <div class="form-group seventyfive" show-errors="">
+                                        <label for="address1">{{local.Address1[lang]}}</label>
+                                        <input required type="text" ng-model="employee.address1" class="form-control" id="address1" name="address1" placeholder="{{local.Address1[lang]}}">
+                                        <p class="help-block" ng-bind="error.address1" ng-if="error.address1"></p>
+                                    </div>
+                                    <div class="form-group seventyfive" >
+                                        <label for="address2">{{local.Address2[lang]}}</label>
+                                        <input type="text" ng-model="employee.address2" class="form-control" id="address2" name="address2" placeholder="{{local.Address2[lang]}}">
+                                    </div>
+                                    <div class="form-group fifty" show-errors="">
+                                        <label for="city">{{local.City[lang]}}</label>
+                                        <input required type="text" ng-model="employee.city" class="form-control" id="city" name="city" placeholder="{{local.City[lang]}}">
+                                        <p class="help-block" ng-bind="error.city" ng-if="error.city"></p>
+                                    </div>
+                                    <div class="form-group fifty" show-errors>
+                                        <label for="country">{{local.Country[lang]}}</label>
+                                        <select required ng-model="employee.country" name="country" id="country" class="form-control">
+                                            <option ng-repeat="country in countries" value="{{country._id}}">{{country.name}}</option>
+                                        </select>
+                                        <p class="help-block" ng-bind="error.country" ng-if="error.country"></p>
+                                    </div>
+                                    <div class="form-group fifteen" show-errors="">
+                                        <label for="zipcode">{{local.ZipCode[lang]}}</label>
+                                        <input required type="text" ng-model="employee.zipcode" class="form-control" id="zipcode" name="zipcode" placeholder="{{local.ZipCode[lang]}}">
+                                        <p class="help-block" ng-bind="error.zipcode" ng-if="error.zipcode"></p>
+                                    </div>
+
+                                    <div class="form-group fifty">
+                                        <label for="contact_no">{{local.ContactNumber[lang]}}</label>
+                                        <input type="text" ng-model="employee.contact_no" class="form-control" id="contact_no" name="contact_no" placeholder="{{local.ContactNumber[lang]}}">
+                                    </div>
+                                    <div class="form-group fifteen" show-errors="">
+                                        <label for="status">{{local.Status[lang]}}</label>
+                                        <select required ng-model="employee.status" name="status" id="status" class="form-control">
+                                            <option value="{{local.StatusActive[lang]}}">{{local.StatusActive[lang]}}</option>
+                                            <option value="{{local.StatusInActive[lang]}}">{{local.StatusInActive[lang]}}</option>
+                                        </select>
+                                        <p class="help-block" ng-bind="error.status" ng-if="error.status"></p>
+                                    </div>
+
+                            </div><!-- end tab one -->
+                            <div class="tab-pane" id="two">
+                                <div class="form-group fifteen">
+                                    <label for="employee_type">{{local.EmployeeType[lang]}}</label>
+                                    <select ng-change="initValue(true)" ng-model="employee.employee_type" name="employee_type" id="employee_type" class="form-control">
+                                        <option ng-repeat="employeetype in employeetypes" value="{{employeetype._id}}">{{employeetype.name}}</option>
+                                        <option ng-selected="isChanged" value="">Custom</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                    <div class="checkbox lead" ng-repeat="module in modules">
+                                        <label>
+                                            <input ng-change="updateEmployee(module)" type="checkbox" ng-model="module.checked"> {{module[lang]}}
+                                        </label>
+
+                                        <div class="checkbox" ng-repeat="submodule in module.privileges">
+                                            <label>
+                                                <input ng-disabled="!module.checked" ng-change="updateEmployee(submodule, module)" type="checkbox" ng-model="submodule.checked"> {{submodule[lang]}}
+                                            </label>
+
+                                            <div class="checkbox" ng-repeat="submodule_item in submodule.privileges">
+                                                <label>
+                                                    <input ng-disabled="!submodule.checked || !module.checked" ng-change="updateEmployee(submodule_item, submodule)" type="checkbox" ng-model="submodule_item.checked"> {{submodule_item[lang]}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div><!-- end tab two -->
+
+                        </div>
+<div class="row">
+                        <div class="col-xs-12">
+                            <br>
+                            <button type="submit" class="btn btn-primary">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+</div>
+                    </form>
+
+                </div>
+            </div>
+        </div><!--  column 12 -->
+    </div>
+</section>

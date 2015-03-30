@@ -1,0 +1,204 @@
+<section data-ng-controller="BeneficiaryApplicationsController" ng-init="list()" last-action title="Beneficiary Application Listing" url="members/beneficiary-applications">
+    <script type="text/ng-template" id="MemberDetails">
+        <div class="modal-header">
+            <h3 class="modal-title">{{local.MemberDetails[lang]}}</h3>
+        </div>
+        <div class="modal-body">
+            <table class="table sum">
+                <thead>
+                <tr>
+                    <th colspan="2">Details</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{local.Name[lang]}}</td>
+                        <td>data.member_name</td>
+                    </tr>
+                    <tr>
+                        <td>{{local.MicroFinnancingServiceProvider[lang]}}</td>
+                        <td>{{data.microfinance.name}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{local.RemittanceServiceProvider[lang]}}</td>
+                        <td>{{data.remittance.name}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{local.Email[lang]}}</td>
+                        <td>{{data.email}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{local.ContactNumber[lang]}}</td>
+                        <td>{{data.contact_no}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{local.Address1[lang]}}</td>
+                        <td>{{data.address1}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{local.Address2[lang]}}</td>
+                        <td>{{data.address2}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{local.City[lang]}}</td>
+                        <td>{{data.city}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{local.Country[lang]}}</td>
+                        <td>{{data.country_name}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{local.ZipCode[lang]}}</td>
+                        <td>{{data.zipcode}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{local.Status[lang]}}</td>
+                        <td>{{data.status}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="BeneficiaryDetails">
+        <div class="modal-header">
+            <h3 class="modal-title">{{local.BeneficiaryDetails[lang]}}</h3>
+        </div>
+        <div class="modal-body">
+            <table class="table sum">
+                <thead>
+                <tr>
+                    <th colspan="2">Details</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{local.Name[lang]}}</td>
+                        <td>data.member_name</td>
+                    </tr>
+                    <tr>
+                        <td>{{local.Email[lang]}}</td>
+                        <td>{{data.email}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{local.ContactNumber[lang]}}</td>
+                        <td>{{data.contact_no}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{local.Address1[lang]}}</td>
+                        <td>{{data.address1}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{local.Address2[lang]}}</td>
+                        <td>{{data.address2}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{local.City[lang]}}</td>
+                        <td>{{data.city}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{local.Country[lang]}}</td>
+                        <td>{{data.country_name}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{local.ZipCode[lang]}}</td>
+                        <td>{{data.zipcode}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{local.Status[lang]}}</td>
+                        <td>{{data.status}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+        </div>
+    </script>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Beneficiary Application</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+
+
+    <!-- main content-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default withtable">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Members List</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row tableoptions">
+                        <div class="col-md-12">
+
+                            <form class="form-inline pull-right" role="form">
+                                <div class="form-group">
+                                    <select ng-change="statusFilter()" id="status" data-ng-model="status" class="form-control input-sm">
+                                        <option ng-selected="s.value===status" ng-repeat="s in statuses" value="{{s.value}}">{{s.label}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group tablesearch">
+                                    <div class="input-group custom-search-form">
+                                        <input type="text" class="form-control" placeholder="Search...">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </span>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+
+
+
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th><a href="" ng-click="sortBy('date_created')">{{local.CreatedOn[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='date_created','fa-sort-asc':sort=='date_created'&&by,'fa-sort-desc':sort=='date_created'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('member_name')">{{local.ApplicantsName[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='member_name','fa-sort-asc':sort=='member_name'&&by,'fa-sort-desc':sort=='member_name'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('first_name')">{{local.BeneficiaryName[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='first_name','fa-sort-asc':sort=='first_name'&&by,'fa-sort-desc':sort=='first_name'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('city')">{{local.City[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='city','fa-sort-asc':sort=='city'&&by,'fa-sort-desc':sort=='city'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('country_name')">{{local.Country[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='country_name','fa-sort-asc':sort=='country_name'&&by,'fa-sort-desc':sort=='country_name'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('contact_no')">{{local.ContactNumber[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='contact_no','fa-sort-asc':sort=='contact_no'&&by,'fa-sort-desc':sort=='contact_no'&&!by}"></i></a></th>
+                            <th ng-show="status==='Pending'">{{local.Action[lang]}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="beneficiary in beneficiaries">
+                            <td>{{beneficiary.date_created | date:'MMM dd yyyy H:mm'}}</td>
+                            <td><a href="" ng-click="open_member(beneficiary.member)">{{beneficiary.member_name}}</a></td>
+                            <td><a href="" ng-click="open_beneficiary(beneficiary)">{{beneficiary.first_name}} {{beneficiary.last_name}}</a></td>
+                            <td>{{beneficiary.city}}</td>
+                            <td>{{beneficiary.country_name}}</td>
+                            <td>{{beneficiary.contact_no}}</td>
+                            <td class="action" ng-if="beneficiary.status==='Pending'">
+                                <div class="btn-group" ng-show="beneficiary.status==='Pending'">
+                                    <label ng-click="update(beneficiary,local.StatusApproved[lang])" ng-confirm-click="Are you sure you want to change the status to accepted?" class="btn btn-primary btn-xs" ng-model="beneficiary.status" btn-radio="local.StatusApproved[lang]">{{local.StatusApprove[lang]}}</label>
+                                    <label ng-click="update(beneficiary,local.StatusRejected[lang])" ng-confirm-click="Are you sure you want to change the status to rejected?" class="btn btn-danger btn-xs" ng-model="beneficiary.status" btn-radio="local.StatusRejected[lang]">{{local.StatusReject[lang]}}</label>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div ng-if="beneficiaries.length==0" class="alert alert-info alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        No data available.
+                    </div>
+                    <pagination ng-show="totalItems>pageLimit" class="pull-right" ng-change="populate()" boundary-links="true" items-per-page="pageLimit" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                </div>
+            </div>
+        </div><!--  column 12 -->
+    </div>
+</section>

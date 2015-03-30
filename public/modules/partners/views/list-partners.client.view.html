@@ -1,0 +1,99 @@
+<section data-ng-controller="PartnersController" data-ng-init="find()" last-action title="Partners Listing" url="partner">
+
+
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Partners</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+
+
+    <!-- main content-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default withtable">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Partners Lists</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row tableoptions">
+                        <div class="col-md-12">
+
+                            <form class="form-inline pull-right" role="form">
+                                <div class="form-group" should-render="9">
+                                    <a href="/#!/partners/create" class="btn btn-primary"><i class="fa fa-plus"></i> New Partner</a>
+                                </div>
+                                <div class="form-group tablesearch">
+                                    <div class="input-group custom-search-form">
+                                        <input type="text" class="form-control" placeholder="Search...">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </span>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+
+
+
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th><a href="" ng-click="sortBy('name')">{{local.PartnerName[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='name','fa-sort-asc':sort=='name'&&by,'fa-sort-desc':sort=='name'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('partner_type')">{{local.PartnerType[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='partner_type','fa-sort-asc':sort=='partner_type'&&by,'fa-sort-desc':sort=='partner_type'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('city')">{{local.City[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='city','fa-sort-asc':sort=='city'&&by,'fa-sort-desc':sort=='city'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('country_name')">{{local.Country[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='country_name','fa-sort-asc':sort=='country_name'&&by,'fa-sort-desc':sort=='country_name'&&!by}"></i></a></th>
+                            <th should-render="8">{{local.Action[lang]}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="partner in partners">
+                            <td>{{partner.name}}</td>
+                            <td>{{partner.partner_type}}</td>
+                            <td>{{partner.city}}</td>
+                            <td>{{partner.country_name}}</td>
+                            <td class="action" should-render="8">
+                                <a data-ng-href="/#!/partners/{{partner._id}}/edit" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
+                                <a data-ng-click="remove(partner);" href="" data-toggle="modal" class="btn btn-primary btn-xs"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div ng-if="partners.length==0" class="alert alert-info alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        No data available.
+                    </div>
+                    <pagination ng-show="totalItems>pageLimit" class="pull-right" ng-change="populate()" boundary-links="true" items-per-page="pageLimit" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                </div>
+            </div>
+        </div><!--  column 12 -->
+    </div>
+
+    <!--<div class="page-header">-->
+        <!--<h1>Partners</h1>-->
+    <!--</div>-->
+    <!--<div class="list-group">-->
+        <!--<a data-ng-repeat="partner in partners" data-ng-href="#!/partners/{{partner._id}}" class="list-group-item">-->
+			<!--<small class="list-group-item-text">-->
+				<!--Posted on-->
+				<!--<span data-ng-bind="partner.created | date:'MMM dd yyyy H:mm'"></span>-->
+				<!--by-->
+				<!--<span data-ng-bind="partner.user.displayName"></span>-->
+			<!--</small>-->
+			<!--<h4 class="list-group-item-heading" data-ng-bind="partner.name"></h4>-->
+        <!--</a>-->
+    <!--</div>-->
+    <!--<div class="alert alert-warning text-center" data-ng-hide="!partners.$resolved || partners.length">-->
+    	<!--No Partners yet, why don't you <a href="/#!/partners/create">create one</a>?-->
+    <!--</div>-->
+</section>

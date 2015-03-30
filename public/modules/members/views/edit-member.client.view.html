@@ -1,0 +1,712 @@
+<section data-ng-controller="MembersController" data-ng-init="findOne()">
+<script type="text/ng-template" id="billerForm">
+    <div class="modal-header">
+        <h3 class="modal-title">{{local.Billers[lang]}}</h3>
+    </div>
+    <div class="modal-body">
+        <form name="$parent.frmBiller" novalidate="">
+            <div show-errors="" class="form-group seventyfive" show-errors="">
+                <label for="b_biller">{{local.BillerName[lang]}}</label>
+                <select required ng-model="data.biller._id" ng-change="selectBiller(data.biller._id)" name="biller" id="b_biller" class="form-control">
+                    <option ng-repeat="b in partner.biller_link" value="{{b._id}}">{{b.name}}</option>
+                </select>
+                <div ng-show="error.biller" class="has-error">
+                    <div ng-bind="error.biller" class="goalert"></div>
+                </div>
+                <p class="help-block" ng-if="$parent.frmBiller.biller.$error.required">The biller is required</p>
+            </div>
+            <div show-errors="" class="form-group seventyfive" show-errors="">
+                <label for="account_name">{{local.AccountName[lang]}}</label>
+                <input required type="text" class="form-control" ng-model="data.account_name" id="account_name" name="account_name" placeholder="{{local.AccountName[lang]}}">
+                <div ng-show="error.account_name" class="has-error">
+                    <div ng-bind="error.account_name" class="goalert"></div>
+                </div>
+                <p class="help-block" ng-if="$parent.frmBiller.account_name.$error.required">The account name is required</p>
+            </div>
+            <div show-errors="" class="form-group seventyfive" show-errors="">
+                <label for="baccount_number">{{local.AccountNumber[lang]}}</label>
+                <input required type="text" class="form-control" ng-model="data.account_number" id="baccount_number" name="account_number" placeholder="{{local.AccountNumber[lang]}}">
+                <div ng-show="error.account_number" class="has-error">
+                    <div ng-bind="error.account_number" class="goalert"></div>
+                </div>
+                <p class="help-block" ng-if="$parent.frmBiller.account_number.$error.required">The account number is required</p>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
+<script type="text/ng-template" id="beneficiary_form">
+    <div class="modal-header">
+        <h3 class="modal-title">{{local.AddBeneficiary[lang]}}</h3>
+    </div>
+    <div class="modal-body">
+        <form name="$parent.frmBeneficiary" role="form" novalidate="">
+            <tabset>
+                <tab heading="Profile">
+                    <div show-errors="" class="form-group seventyfive" show-errors="">
+                        <label for="b_first_name">{{local.FirstName[lang]}}</label>
+                        <input type="text" required class="form-control" ng-model="data.first_name" id="b_first_name" name="first_name" placeholder="{{local.FirstName[lang]}}">
+                        <p class="help-block" ng-if="$parent.frmBeneficiary.first_name.$error.required">The first name is required</p>
+                    </div>
+                    <div show-errors="" class="form-group seventyfive" show-errors="">
+                        <label for="b_last_name">{{local.LastName[lang]}}</label>
+                        <input type="text" required class="form-control" ng-model="data.last_name" id="b_last_name" name="last_name" placeholder="{{local.LastName[lang]}}">
+                        <p class="help-block" ng-if="$parent.frmBeneficiary.last_name.$error.required">The last name is required</p>
+                    </div>
+                    <div show-errors="" class="form-group seventyfive" show-errors="">
+                        <label for="b_middle_name">{{local.MiddleName[lang]}}</label>
+                        <input type="text" class="form-control" ng-model="data.middle_name" id="b_middle_name" name="middle_name" placeholder="{{local.MiddleName[lang]}}">
+                        <p class="help-block" ng-if="$parent.frmBeneficiary.middle_name.$error.required">The middle name is required</p>
+                    </div>
+                    <div show-errors="" class="form-group fifty" show-errors="">
+                        <label for="b_email">{{local.Email[lang]}}</label>
+                        <input type="email" required class="form-control" ng-model="data.email" id="b_email" name="email" placeholder="{{local.Email[lang]}}">
+                        <div ng-show="error.email" class="has-error">
+                            <div ng-bind="error.email" class="goalert"></div>
+                        </div>
+                        <p class="help-block" ng-if="$parent.frmBeneficiary.email.$error.required">The email is required</p>
+                        <p class="help-block" ng-if="$parent.frmBeneficiary.email.$error.email">The email is invalid</p>
+                    </div>
+                    <div show-errors="" class="form-group fifty" show-errors="">
+                        <label for="b_contact_no">{{local.ContactNumber[lang]}}</label>
+                        <input type="phone" required class="form-control" ng-model="data.contact_no" id="b_contact_no" name="contact_no" placeholder="{{local.ContactNo[lang]}}">
+                        <div ng-show="error.contact_no" class="has-error">
+                            <div ng-bind="error.contact_no" class="goalert"></div>
+                        </div>
+                        <p class="help-block" ng-if="$parent.frmBeneficiary.contact_no.$error.required">The contact number is required</p>
+                    </div>
+                    <div show-errors="" class="form-group" show-errors="">
+                        <label for="b_address1">{{local.Address1[lang]}}</label>
+                        <input type="text" required class="form-control" ng-model="data.address1" id="b_address1" name="address1" placeholder="{{local.Address1[lang]}}">
+                        <div ng-show="error.address1" class="has-error">
+                            <div ng-bind="error.address1" class="goalert"></div>
+                        </div>
+                        <p class="help-block" ng-if="$parent.frmBeneficiary.address1.$error.required">The address 1 is required</p>
+                    </div>
+                    <div show-errors="" class="form-group">
+                        <label for="b_address2">{{local.Address2[lang]}}</label>
+                        <input type="text" class="form-control" ng-model="data.address2" id="b_address2" name="address2" placeholder="{{local.Address2[lang]}}">
+                    </div>
+                    <div show-errors="" class="form-group fifty" show-errors="">
+                        <label for="b_city">{{local.City[lang]}}</label>
+                        <input type="text" required class="form-control" ng-model="data.city" id="b_city" name="city" placeholder="{{local.City[lang]}}">
+                        <div ng-show="error.city" class="has-error">
+                            <div ng-bind="error.city" class="goalert"></div>
+                        </div>
+                        <p class="help-block" ng-if="$parent.frmBeneficiary.city.$error.required">The city is required</p>
+                    </div>
+                    <div show-errors="" class="form-group fifty" show-errors="">
+                        <label for="b_country">{{local.Country[lang]}}</label>{{country}}
+                        <select required ng-model="data.country._id" name="country" id="b_country" class="form-control" ng-change="changeCountry(data.country._id)">
+                            <option ng-repeat="c in countries" value="{{c._id}}">{{c.name}}</option>
+                        </select>
+                        <div ng-show="error.country" class="has-error">
+                            <div ng-bind="error.country" class="goalert"></div>
+                        </div>
+                        <p class="help-block" ng-if="$parent.frmBeneficiary.country.$error.required">The country is required</p>
+                    </div>
+                    <div show-errors="" class="form-group twentyfive">
+                        <label for="b_zipcode">{{local.ZipCode[lang]}}</label>
+                        <input type="text" class="form-control" ng-model="data.zipcode" id="b_zipcode" name="zipcode" placeholder="{{local.ZipCode[lang]}}">
+                    </div>
+                    <div show-errors="" class="form-group twentyfive" show-errors="">
+                        <label for="b_status">{{local.Status[lang]}}</label>
+                        <select required ng-model="data.status" name="status" id="b_status" class="form-control">
+                            <option value="{{local.StatusPending.en_us}}">{{local.StatusPending[lang]}}</option>
+                            <option value="{{local.StatusApproved.en_us}}">{{local.StatusApproved[lang]}}</option>
+                            <option value="{{local.StatusRejected.en_us}}">{{local.StatusRejected[lang]}}</option>
+                        </select>
+                        <div ng-show="error.status" class="has-error">
+                            <div ng-bind="error.status" class="goalert"></div>
+                        </div>
+                        <p class="help-block" ng-if="$parent.frmBeneficiary.status.$error.required">The status is required</p>
+                    </div>
+                    <div show-errors="" class="form-group" show-errors="">
+                        <label for="is_member">{{local.isMember[lang]}}</label>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="is_member" id="is_member" ng-model="data.is_member" /> Yes
+                            </label>
+                        </div>
+                    </div>
+                </tab>
+                <tab heading="Account Settings">
+                    <div show-errors="" class="form-group fifty" show-errors="">
+                        <label for="bank_name">{{local.BankName[lang]}}</label>
+                        <select ng-required="true" ng-model="data.bank_name" id="bank_name" name="bank_name" class="form-control" placeholder="{{local.BankName[lang]}}">
+                            <option ng-repeat="item in banks" value="{{item.name}}">{{item.name}}</option>
+                        </select>
+                        <span class="help-block" ng-if="$parent.frmBeneficiary.bank_name.$error.required">Bank Used is required</span>
+                    </div>
+                    <div show-errors="" class="form-group fifty" show-errors="">
+                        <label for="account_number">{{local.AccountNumber[lang]}}</label>
+                        <input class="form-control" required type="text" id="account_number" name="account_number" ng-model="data.account_number" placeholder="{{local.AccountNumber[lang]}}">
+                        <span class="help-block" ng-if="$parent.frmBeneficiary.account_number.$error.required">Account Number is required</span>
+                    </div>
+                    <div show-errors="" class="form-group fifty" show-errors="">
+                        <label for="ewallet_accountnumber">{{local.EWalletAccountNumber[lang]}}</label>
+                        <input class="form-control" required type="text" id="ewallet_accountnumber" name="ewallet_accountnumber" ng-model="data.ewallet_accountnumber" placeholder="{{local.AccountName[lang]}}">
+                        <span class="help-block" ng-if="$parent.frmBeneficiary.ewallet_accountnumber.$error.required">EWallet Account Number is required</span>
+                    </div>
+                </tab>
+            </tabset>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok();">OK</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
+<!--TODO: add validation to loan form-->
+<script type="text/ng-template" id="loanForm">
+    <div class="modal-header">
+        <h3 class="modal-title">{{local.LoanManagement[lang]}}</h3>
+    </div>
+    <div class="modal-body">
+        <form name="$parent.frmBeneficiary" novalidate>
+            <div show-errors="" class="form-group seventyfive">
+                <label for="reference_no">{{local.ReferenceNumber[lang]}}</label>
+                <input type="text" class="form-control" ng-model="data.reference_no" id="reference_no" name="reference_no" placeholder="{{local.ReferenceNumber[lang]}}">
+            </div>
+            <div show-errors="" class="form-group seventyfive">
+                <label for="original_value">{{local.OriginalValue[lang]}}</label>
+                <input type="text" class="form-control" ng-model="data.original_value" id="original_value" name="original_value" placeholder="{{local.OriginalValue[lang]}}">
+            </div>
+            <div show-errors="" class="form-group seventyfive">
+                <label for="present_value">{{local.PresentValue[lang]}}</label>
+                <input type="text" class="form-control" ng-model="data.present_value" id="present_value" name="present_value" placeholder="{{local.PresentValue[lang]}}">
+            </div>
+            <div show-errors="" class="form-group seventyfive">
+                <label for="rate_per_period">{{local.RatePerPeriod[lang]}}</label>
+                <input type="text" class="form-control" ng-model="data.rate_per_period" id="rate_per_period" name="rate_per_period" placeholder="{{local.RatePerPeriod[lang]}}">
+            </div>
+            <div show-errors="" class="form-group seventyfive">
+                <label for="number_of_periods">{{local.NumberOfPeriods[lang]}}</label>
+                <input type="text" class="form-control" ng-model="data.number_of_periods" id="number_of_periods" name="number_of_periods" placeholder="{{local.NumberOfPeriods[lang]}}">
+            </div>
+            <div show-errors="" class="form-group seventyfive">
+                <label for="current_period">{{local.CurrentPeriod[lang]}}</label>
+                <input type="text" class="form-control" ng-model="data.current_period" id="current_period" name="current_period" placeholder="{{local.CurrentPeriod[lang]}}">
+            </div>
+            <div show-errors="" class="form-group twentyfive">
+                <label for="l_status">{{local.Status[lang]}}</label>
+                <select ng-model="data.status" name="status" id="l_status" class="form-control">
+                    <option value="{{local.StatusActive.en_us}}">{{local.StatusActive[lang]}}</option>
+                    <option value="{{local.StatusInActive.en_us}}">{{local.StatusInActive[lang]}}</option>
+                </select>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">{{local.EditMember[lang]}}</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div ng-show="error.general" class="has-error col-md-12">
+    <div class="row">
+        <div ng-bind="error.general" class="goalert"></div>
+    </div>
+</div>
+
+<!-- main content-->
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+    <div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{local.MemberDetails[lang]}}</h3>
+    </div>
+    <div class="panel-body">
+    <form role="form" ng-submit="update()" name="frmMember" novalidate="">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs">
+        <li ng-class="{active: active==1}"><a ng-click="active=1" href="#gochannelaccount" data-toggle="tab">{{local.GoChannelAccount[lang]}}</a></li>
+        <li ng-class="{active: active==2}"><a ng-click="active=2" href="#profile" data-toggle="tab">{{local.Profile[lang]}}</a></li>
+        <li ng-class="{active: active==3}"><a ng-click="active=3" href="#addressinfo" data-toggle="tab">{{local.AddressInfo[lang]}}</a></li>
+        <li ng-class="{active: active==4}"><a ng-click="active=4" href="#workinfo" data-toggle="tab">{{local.WorkInfo[lang]}}</a></li>
+        <li ng-class="{active: active==5}"><a ng-click="active=5" href="#references" data-toggle="tab">{{local.References[lang]}}</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+
+    <div ng-class="{active: active==1}" class="tab-pane" id="gochannelaccount">
+        <div class="form-group fifty">
+            <button type="button" class="btn btn-primary" ng-click="generate_password()">Reset Password</button>
+        </div>
+        <div show-errors="" class="form-group twentyfive">
+            <label for="status">{{local.Status[lang]}}</label>
+            <select required ng-model="member.status" name="status" id="status" class="form-control">
+                <option value="{{local.StatusActive.en_us}}">{{local.StatusActive[lang]}}</option>
+                <option value="{{local.StatusInActive.en_us}}">{{local.StatusInActive[lang]}}</option>
+            </select>
+            <p class="help-block" ng-bind="error.status" ng-if="error.status"></p>
+        </div>
+        <div show-errors="" class="form-group fifty">
+            <label for="microfinance">{{local.MicroFinnancingServiceProvider[lang]}}</label>
+            <select required ng-model="member.microfinance" name="microfinance" id="microfinance" class="form-control">
+                <option ng-repeat="partner in microfinancing_partners" value="{{partner._id}}">{{partner.name}}</option>
+            </select>
+            <p class="help-block" ng-bind="error.microfinance" ng-if="error.microfinance"></p>
+        </div>
+        <div show-errors="" class="form-group fifty">
+            <label for="remittance">{{local.RemittanceServiceProvider[lang]}}</label>
+            <select ng-model="member.remittance" name="remittance" id="remittance" class="form-control">
+                <option ng-repeat="partner in remittance_partners" value="{{partner._id}}">{{partner.name}}</option>
+            </select>
+            <p class="help-block" ng-bind="error.remittance" ng-if="error.remittance"></p>
+        </div>
+        <div show-errors="" class="form-group fifty">
+            <label for="card_issuer">{{local.CardIssuer[lang]}}</label>
+            <select required ng-model="member.card_issuer" name="card_issuer" id="card_issuer" class="form-control">
+                <option value="Card Issuer 1">Card Issuer 1</option>
+                <option value="Card Issuer 2">Card Issuer 2</option>
+            </select>
+            <p class="help-block" ng-bind="error.card_issuer" ng-if="error.card_issuer"></p>
+        </div>
+        <div show-errors="" class="form-group fifty">
+            <label for="CardNbr">{{local.CardNbr[lang]}}</label>
+            <input type="text" class="form-control" ng-model="member.CardNbr" id="CardNbr" name="CardNbr" placeholder="{{local.CardNbr[lang]}}">
+            <p class="help-block" ng-bind="error.CardNbr" ng-if="error.CardNbr"></p>
+        </div>
+        <div show-errors="" class="form-group twentyfive">
+            <label for="date_joined">{{local.DateJoined[lang]}}</label>
+            <div class="input-group date">
+                <input required type="date" class="form-control" ng-model="member.date_joined" id="date_joined" name="date_joined" placeholder="{{local.DateJoined[lang]}}">
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+            <p class="help-block" ng-bind="error.date_joined" ng-if="error.date_joined"></p>
+        </div>
+        <br>
+        <br>
+        <div class="form-group" show-errors="">
+            <label>Beneficiaries</label> &nbsp; &nbsp;
+            <button type="button" ng-click="open({})" class="btn btn-primary pull-right" style="margin-bottom:10px;"><i class="fa fa-plus"></i> Add Beneficiary</button>
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>{{local.Name[lang]}}</th>
+                    <th>{{local.City[lang]}}</th>
+                    <th>{{local.Country[lang]}}</th>
+                    <th>{{local.Action[lang]}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="beneficiary in member.beneficiaries_link">
+                    <td>{{beneficiary.first_name}} {{beneficiary.last_name}}</td>
+                    <td>{{beneficiary.city}}</td>
+                    <td>{{beneficiary.country.name}}</td>
+                    <td class="action">
+                        <a ng-click="open(beneficiary)" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
+                        <a data-ng-click="removeBen(beneficiary);" href="" data-toggle="modal" class="btn btn-primary btn-xs"><i class="fa fa-trash-o"></i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <br>
+        <div class="form-group" show-errors="">
+            <label>Loan Details</label> &nbsp; &nbsp;
+            <button type="button" ng-click="open_loan({})" class="btn btn-primary pull-right" style="margin-bottom:10px;"><i class="fa fa-plus"></i> Add Loan</button>
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>{{local.ReferenceNumber[lang]}}</th>
+                    <th>{{local.OriginalValue[lang]}}</th>
+                    <th>{{local.CurrentPeriod[lang]}}</th>
+                    <th>{{local.Status[lang]}}</th>
+                    <th>{{local.Action[lang]}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="loan in member.loans_link">
+                    <td>{{loan.reference_no}}</td>
+                    <td>{{loan.original_value}}</td>
+                    <td>{{loan.current_period}}</td>
+                    <td>{{loan.status}}</td>
+                    <td class="action">
+                        <a ng-click="open_loan(loan)" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
+                        <a data-ng-click="removeLoan(loan);" href="" data-toggle="modal" class="btn btn-primary btn-xs"><i class="fa fa-trash-o"></i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div ng-show="member.loans.length===0" class="alert alert-info alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                No data available.
+            </div>
+
+        </div>
+        <br/>
+        <br/>
+        <div class="form-group" show-errors="">
+            <label>Loan Details</label> &nbsp; &nbsp;
+            <a href="" ng-click="open_biller({})" class="btn btn-primary pull-right"> <i class="fa fa-plus"></i> Add Biller</a>
+            <br>
+            <br>
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>{{local.BillerName[lang]}}</th>
+                    <th>{{local.AccountName[lang]}}</th>
+                    <th>{{local.AccountNumber[lang]}}</th>
+                    <th>{{local.Action[lang]}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="biller in member.biller_link">
+                    <td>{{biller.biller.name}}</td>
+                    <td>{{biller.account_name}}</td>
+                    <td>{{biller.account_number}}</td>
+                    <td class="action">
+                        <a ng-click="open_biller(biller)" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
+                        <a data-ng-click="removeBil(biller);" href="" data-toggle="modal" class="btn btn-primary btn-xs"><i class="fa fa-trash-o"></i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div ng-show="member.biller_link.length===0" class="alert alert-info alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                No data available.
+            </div>
+        </div>
+
+        <div class="form-group" show-errors="">
+            <button type="button" class="btn btn-primary">Cancel</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" ng-click="active=2" class="btn btn-primary">Next</button>
+        </div>
+    </div><!-- end tab five -->
+    <div ng-class="{active: active==2}" class="tab-pane" id="profile">
+        <div show-errors="" class="form-group fifty">
+            <label for="last_name">{{local.LastName[lang]}}</label>
+            <input type="text" required class="form-control" ng-model="member.last_name" id="last_name" name="last_name" placeholder="{{local.LastName[lang]}}">
+            <p class="help-block" ng-bind="error.last_name" ng-if="error.last_name"></p>
+        </div>
+        <div show-errors="" class="form-group fifty">
+            <label for="first_name">{{local.FirstName[lang]}}</label>
+            <input ng-required="true" type="text" class="form-control" ng-model="member.first_name" id="first_name" name="first_name" placeholder="{{local.FirstName[lang]}}">
+            <p class="help-block" ng-bind="error.first_name" ng-if="error.first_name"></p>
+        </div>
+        <div show-errors="" class="form-group fifty">
+            <label for="middle_name">{{local.MiddleName[lang]}}</label>
+            <input type="text" class="form-control" ng-model="member.middle_name" id="middle_name" name="middle_name" placeholder="{{local.MiddleName[lang]}}">
+        </div>
+        <div show-errors="" class="form-group fifty">
+            <label for="name_on_card">{{local.NameOnCard[lang]}}</label>
+            <input ng-required="true" type="text" class="form-control" ng-model="member.name_on_card" id="name_on_card" name="name_on_card" placeholder="{{local.FirstName[lang]}}">
+            <p class="help-block" ng-bind="error.name_on_card" ng-if="error.name_on_card"></p>
+        </div>
+        <div show-errors="" class="form-group fifteen">
+            <label for="title">{{local.Title[lang]}}</label>
+            <select required ng-model="member.title" name="title" id="title" class="form-control">
+                <option value="{{local.Mr.en_us}}">{{local.Mr[lang]}}</option>
+                <option value="{{local.Ms.en_us}}">{{local.Ms[lang]}}</option>
+                <option value="{{local.Mrs.en_us}}">{{local.Mrs[lang]}}</option>
+                <option value="{{local.Dr.en_us}}">{{local.Dr[lang]}}</option>
+                <option value="{{local.Engr.en_us}}">{{local.Engr[lang]}}</option>
+                <option value="{{local.Dir.en_us}}">{{local.Dir[lang]}}</option>
+            </select>
+            <p class="help-block" ng-bind="error.status" ng-if="error.status"></p>
+        </div>
+        <div show-errors="" class="form-group twentyfive">
+            <label for="civil_status">{{local.CivilStatus[lang]}}</label>
+            <select required ng-model="member.civil_status" name="civil_status" id="civil_status" class="form-control">
+                <option value="{{local.Single.en_us}}">{{local.Single[lang]}}</option>
+                <option value="{{local.Married.en_us}}">{{local.Married[lang]}}</option>
+                <option value="{{local.Divorced.en_us}}">{{local.Divorced[lang]}}</option>
+                <option value="{{local.Separated.en_us}}">{{local.Separated[lang]}}</option>
+                <option value="{{local.Widowed.en_us}}">{{local.Widowed[lang]}}</option>
+            </select>
+            <p class="help-block" ng-bind="error.civil_status" ng-if="error.civil_status"></p>
+        </div>
+        <div show-errors="" class="form-group seventyfive">
+            <label for="gender_male">{{local.Gender[lang]}}</label>
+            <div>
+                <label class="checkbox-inline">
+                    <input ng-model="member.Gender" checked type="radio" id="gender_male" name="gender" value="{{local.Male.en_us}}"> {{local.Male[lang]}}
+                </label>
+                <label class="checkbox-inline">
+                    <input ng-model="member.Gender" type="radio" id="gender_female" name="gender" value="{{local.Female.en_us}}"> {{local.Female[lang]}}
+                </label>
+            </div>
+        </div>
+        <div show-errors="" class="form-group twentyfive">
+            <label for="birthday">{{local.Birthday[lang]}}</label>
+            <div class="input-group date">
+                <input required type="date" class="form-control" ng-model="member.birthday" id="birthday" name="birthday" placeholder="{{local.Birthday[lang]}}">
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+            <p class="help-block" ng-bind="error.birthday" ng-if="error.birthday"></p>
+        </div>
+        <div show-errors="" class="form-group seventyfive">
+            <label for="birthplace">{{local.Birthplace[lang]}}</label>
+            <input required type="text" class="form-control" ng-model="member.birthplace" id="birthplace" name="birthplace" placeholder="{{local.Birthplace[lang]}}">
+            <p class="help-block" ng-bind="error.birthplace" ng-if="error.birthplace"></p>
+        </div>
+        <div show-errors="" class="form-group fifty">
+            <label for="citizenship">Citizenship</label>
+            <input required type="text" class="form-control" ng-model="member.citizenship" id="citizenship" name="citizenship" placeholder="{{local.Citizenship[lang]}}">
+            <p class="help-block" ng-bind="error.citizenship" ng-if="error.citizenship"></p>
+        </div>
+
+        <div show-errors="" class="form-group twentyfive">
+            <label for="phone1">{{local.Phone[lang]}}</label>
+            <input required type="text" class="form-control" ng-model="member.phone1" id="phone1" name="phone1" placeholder="{{local.Phone[lang]}}">
+            <p class="help-block" ng-bind="error.phone1" ng-if="error.phone1"></p>
+        </div>
+        <div show-errors="" class="form-group twentyfive">
+            <label for="mobile">{{local.Mobile[lang]}}</label>
+            <input required type="phone" class="form-control" ng-model="member.mobile" id="mobile" name="mobile" placeholder="{{local.Mobile[lang]}}">
+            <p class="help-block" ng-bind="error.mobile" ng-if="error.mobile"></p>
+        </div>
+        <div show-errors="" class="form-group fifty">
+            <label>{{local.Email[lang]}}</label>
+            <input required type="email" class="form-control" ng-model="member.email" id="email" name="email" placeholder="{{local.Email[lang]}}">
+            <p class="help-block" ng-bind="error.email" ng-if="error.email"></p>
+        </div>
+        <div class="form-group" show-errors="">
+            <button type="button" class="btn btn-primary">Cancel</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" ng-click="active=3" class="btn btn-primary">Next</button>
+        </div>
+    </div><!-- end tab one -->
+    <div ng-class="{active: active==3}" class="tab-pane" id="addressinfo">
+
+        <div show-errors="" class="form-group twentyfive">
+            <label>Address Type</label>
+            <select required ng-model="member.address_type" name="address_type" id="address_type" class="form-control">
+                <option value="STREET">STREET</option>
+                <option value="CONDO">CONDO</option>
+                <option value="APTBLOCK">APTBLOCK</option>
+                <option value="FARM">FARM</option>
+                <option value="OTHER">OTHER</option>
+            </select>
+        </div>
+
+        <div class="form-group" show-errors="">
+            <label for="address1">{{local.Address1[lang]}}</label>
+            <input required type="text" required class="form-control" ng-model="member.address1" id="address1" name="address1" placeholder="{{local.Address1[lang]}}">
+            <p class="help-block" ng-bind="error.address1" ng-if="error.address1"></p>
+        </div>
+
+        <div class="form-group" show-errors="">
+            <label for="address2">{{local.Address2[lang]}}</label>
+            <input type="text" required class="form-control" ng-model="member.address2" id="address2" name="address2" placeholder="{{local.Address2[lang]}}">
+            <p class="help-block" ng-bind="error.address2" ng-if="error.address2"></p>
+        </div>
+
+        <div show-errors="" class="form-group fifteen">
+            <label for="provincial_code">{{local.ZipCode[lang]}}</label>
+            <input type="text" required class="form-control" ng-model="member.provincial_code" id="provincial_code" name="provincial_code" placeholder="{{local.ProvincialCode[lang]}}">
+            <p class="help-block" ng-bind="error.provincial_code" ng-if="error.provincial_code"></p>
+        </div>
+
+        <div show-errors="" class="form-group fifteen">
+            <label for="zipcode">{{local.ZipCode[lang]}}</label>
+            <input type="text" required class="form-control" ng-model="member.zipcode" id="zipcode" name="zipcode" placeholder="{{local.ZipCode[lang]}}">
+            <p class="help-block" ng-bind="error.zipcode" ng-if="error.zipcode"></p>
+        </div>
+
+        <div show-errors="" class="form-group fifteen">
+            <label for="country">{{local.Country[lang]}}</label>
+            <select required ng-model="member.country" name="country" id="country" class="form-control">
+                <option ng-repeat="country in countries" value="{{country._id}}">{{country.name}}</option>
+            </select>
+            <p class="help-block" ng-bind="error.country" ng-if="error.country"></p>
+        </div>
+
+        <div class="form-group" show-errors="">
+            <label>&nbsp;</label>
+            <div>
+                <label class="checkbox-inline">
+                    <input ng-model="member.is_mailing_address" type="checkbox" id="is_mailing_address" /> {{local.isMailingAddress[lang]}}
+                </label>
+            </div>
+            <br>
+        </div>
+
+        <div class="form-group" show-errors="">
+            <button type="button" class="btn btn-primary">Cancel</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" ng-click="active=4" class="btn btn-primary">Next</button>
+        </div>
+
+    </div><!-- end tab two -->
+    <div ng-class="{active: active==4}" class="tab-pane" id="workinfo">
+
+        <div show-errors="" class="form-group fifty">
+            <label for="company_name">{{local.CompanyName[lang]}}</label>
+            <input required type="text" class="form-control" ng-model="member.company_name" id="company_name" name="company_name" placeholder="{{local.CompanyName[lang]}}">
+            <p class="help-block" ng-bind="error.company_name" ng-if="error.company_name"></p>
+        </div>
+        <div show-errors="" class="form-group fifty">
+            <label for="work_title">{{local.WorkTitle[lang]}}</label>
+            <input required type="text" class="form-control" ng-model="member.work_title" id="work_title" name="work_title" placeholder="{{local.WorkTitle[lang]}}">
+            <p class="help-block" ng-bind="error.work_title" ng-if="error.work_title"></p>
+        </div>
+        <div show-errors="" class="form-group fifty">
+            <label for="name_of_supervisor">{{local.NameOfSupervisor[lang]}}</label>
+            <input required type="text" class="form-control" ng-model="member.name_of_supervisor" id="name_of_supervisor" name="name_of_supervisor" placeholder="{{local.NameOfSupervisor[lang]}}">
+            <p class="help-block" ng-bind="error.name_of_supervisor" ng-if="error.name_of_supervisor"></p>
+        </div>
+        <div class="form-group" show-errors="">
+            <label for="company_address1">{{local.CompanyAddressLine1[lang]}}</label>
+            <input required type="text" class="form-control" ng-model="member.company_address1" id="company_address1" name="company_address1" placeholder="{{local.CompanyAddress1[lang]}}">
+            <p class="help-block" ng-bind="error.company_address1" ng-if="error.company_address1"></p>
+        </div>
+        <div class="form-group" show-errors="">
+            <label for="company_address2">{{local.CompanyAddressLine2[lang]}}</label>
+            <input required type="text" class="form-control" ng-model="member.company_address2" id="company_address2" name="company_address2" placeholder="{{local.CompanyAddress2[lang]}}">
+            <p class="help-block" ng-bind="error.company_address2" ng-if="error.company_address2"></p>
+        </div>
+        <div show-errors="" class="form-group fifteen">
+            <label for="company_zipcode">{{local.CompanyZipCode[lang]}}</label>
+            <input required type="text" class="form-control" ng-model="member.company_zipcode" id="company_zipcode" name="company_zipcode" placeholder="{{local.CompanyZipCode[lang]}}">
+            <p class="help-block" ng-bind="error.company_zipcode" ng-if="error.company_zipcode"></p>
+        </div>
+
+        <div show-errors="" class="form-group fifteen">{{member.company_country}}
+            <label for="company_country">{{local.Country[lang]}}</label>
+            <select required ng-model="member.company_country" name="company_country" id="company_country" class="form-control">
+                <option ng-repeat="country in countries" value="{{country._id}}">{{country.name}}</option>
+            </select>
+            <p class="help-block" ng-bind="error.company_country" ng-if="error.company_country"></p>
+        </div>
+
+        <div show-errors="" class="form-group twentyfive">
+            <label for="company_phone1">{{local.OfficePhoneNumber[lang]}}</label>
+            <input required type="phone" class="form-control" ng-model="member.company_phone1" id="company_phone1" name="company_phone1" placeholder="{{local.OfficePhoneNumber[lang]}}">
+            <p class="help-block" ng-bind="error.company_phone1" ng-if="error.company_phone1"></p>
+        </div>
+        <div show-errors="" class="form-group thirty">
+            <label for="estimated_salary">{{local.EstimatedAnnualSalary[lang]}}</label>
+            <input required type="phone" class="form-control" ng-model="member.estimated_salary" id="estimated_salary" name="estimated_salary" placeholder="{{local.EstimatedAnnualSalary[lang]}}">
+            <p class="help-block" ng-bind="error.estimated_salary" ng-if="error.estimated_salary"></p>
+        </div>
+        <div show-errors="" class="form-group fifteen">
+            <label for="year_employed">{{local.YearEmployed[lang]}}</label>
+            <input required type="phone" class="form-control" ng-model="member.year_employed" id="year_employed" name="year_employed" placeholder="{{local.YearEmployed[lang]}}">
+            <p class="help-block" ng-bind="error.year_employed" ng-if="error.year_employed"></p>
+        </div>
+        <div show-errors="" class="form-group fifteen">
+            <label for="years_worked">{{local.YearsWorked[lang]}}</label>
+            <input required type="phone" class="form-control" ng-model="member.years_worked" id="years_worked" name="years_worked" placeholder="{{local.YearsWorked[lang]}}">
+            <p class="help-block" ng-bind="error.years_worked" ng-if="error.years_worked"></p>
+        </div>
+
+        <div class="form-group" show-errors="">
+            <button type="button" class="btn btn-primary">Cancel</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" ng-click="active=5" class="btn btn-primary">Next</button>
+        </div>
+
+    </div><!-- end tab three -->
+    <div ng-class="{active: active==5}" class="tab-pane" id="references">
+
+        <div show-errors="" class="form-group fifty">
+            <label for="mothers_first_name">{{local.MothersFirstName[lang]}}</label>
+            <input required type="text" class="form-control" ng-model="member.mothers_first_name" id="mothers_first_name" name="mothers_first_name" placeholder="{{local.MothersFirstName[lang]}}">
+            <p class="help-block" ng-bind="error.mothers_first_name" ng-if="error.mothers_first_name"></p>
+        </div>
+        <div show-errors="" class="form-group fifty">
+            <label for="mothers_maiden_surname">{{local.MothersMaidenSurname[lang]}}</label>
+            <input required type="text" class="form-control" ng-model="member.mothers_maiden_surname" id="mothers_maiden_surname" name="mothers_maiden_surname" placeholder="{{local.MothersMaidenSurname[lang]}}">
+            <p class="help-block" ng-bind="error.mothers_maiden_surname" ng-if="error.mothers_maiden_surname"></p>
+        </div>
+        <div show-errors="" class="form-group fifty">
+            <label for="fathers_first_name">{{local.FathersFirstName[lang]}}</label>
+            <input required type="text" class="form-control" ng-model="member.fathers_first_name" id="fathers_first_name" name="fathers_first_name" placeholder="{{local.FathersFirstName[lang]}}">
+            <p class="help-block" ng-bind="error.fathers_first_name" ng-if="error.fathers_first_name"></p>
+        </div>
+        <div show-errors="" class="form-group fifty">
+            <label for="fathers_surname">{{local.FathersSurname[lang]}}</label>
+            <input required type="text" class="form-control" ng-model="member.fathers_surname" id="fathers_surname" name="fathers_surname" placeholder="{{local.FathersSurname[lang]}}">
+            <p class="help-block" ng-bind="error.fathers_surname" ng-if="error.fathers_surname"></p>
+        </div>
+        <div show-errors="" class="form-group fifty">
+            <label for="mothers_birthday">{{local.MotherBirthday[lang]}}</label>
+            <input required type="date" class="form-control" ng-model="member.mothers_birthday" id="mothers_birthday" name="mothers_birthday" placeholder="{{local.MotherBirthday[lang]}}">
+            <p class="help-block" ng-bind="error.mothers_birthday" ng-if="error.mothers_birthday"></p>
+        </div>
+        <div show-errors="" class="form-group thirty">
+            <label>{{local.SSSIDNumber[lang]}}</label>
+            <input required type="text" class="form-control" ng-model="member.sss_id_number" id="sss_id_number" name="sss_id_number" placeholder="{{local.SSSIDNumber[lang]}}">
+            <p class="help-block" ng-bind="error.sss_id_number" ng-if="error.sss_id_number"></p>
+        </div>
+        <div show-errors="" class="form-group thirty">
+            <label for="sss_id_issuance_date">{{local.SSSIDIssuanceDate[lang]}}</label>
+            <div class="input-group date">
+                <input required type="date" class="form-control" ng-model="member.sss_id_issuance_date" id="sss_id_issuance_date" name="sss_id_issuance_date" placeholder="{{local.SSSIDIssuanceDate[lang]}}">
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+            <p class="help-block" ng-bind="error.sss_id_issuance_date" ng-if="error.sss_id_issuance_date"></p>
+        </div>
+
+        <div show-errors="" class="form-group thirty">
+            <label for="driverslicenseid">{{local.DriversLicenseID[lang]}}</label>
+            <input required type="text" class="form-control" ng-model="member.driverslicenseid" id="driverslicenseid" name="driverslicenseid" placeholder="{{local.SSSIDNumber[lang]}}">
+            <p class="help-block" ng-bind="error.driverslicenseid" ng-if="error.driverslicenseid"></p>
+        </div>
+
+        <div show-errors="" class="form-group thirty">
+            <label for="drivers_license_issuance_date">{{local.DriversLicenseIssuanceDate[lang]}}</label>
+            <div class="input-group date">
+                <input required type="date" class="form-control" ng-model="member.drivers_license_issuance_date" id="drivers_license_issuance_date" name="drivers_license_issuance_date" placeholder="{{local.DriversLicenseIssuanceDate[lang]}}">
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+        </div>
+        <div show-errors="" class="form-group thirty">
+            <label for="driverslicenseexpirydate">{{local.DriversLicenseExpiryDate[lang]}}</label>
+            <div class="input-group date">
+                <input required type="date" class="form-control" ng-model="member.driverslicenseexpirydate" id="driverslicenseexpirydate" name="driverslicenseexpirydate" placeholder="{{local.DriversLicenseExpiryDate[lang]}}">
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+        </div>
+        <div show-errors="" class="form-group thirty">
+            <label for="passportid">{{local.PassportID[lang]}}</label>
+            <input required type="text" class="form-control" ng-model="member.passportid" id="passportid" name="passportid" placeholder="{{local.PassportID[lang]}}">
+            <p class="help-block" ng-bind="error.passportid" ng-if="error.passportid"></p>
+        </div>
+
+        <div show-errors="" class="form-group thirty">
+            <label for="passport_issuance_date">{{local.PassportIssuanceDate[lang]}}</label>
+            <div class="input-group date">
+                <input required type="date" class="form-control" ng-model="member.passport_issuance_date" id="passport_issuance_date" name="passport_issuance_date" placeholder="{{local.PassportIssuanceDate[lang]}}">
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+            <p class="help-block" ng-bind="error.passport_issuance_date" ng-if="error.passport_issuance_date"></p>
+        </div>
+        <div show-errors="" class="form-group thirty">
+            <label for="passportexpirydate">{{local.PassportExpiryDate[lang]}}</label>
+            <div class="input-group date">
+                <input required type="date" class="form-control" ng-model="member.passportexpirydate" id="passportexpirydate" name="passportexpirydate" placeholder="{{local.PassportExpiryDate[lang]}}">
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+            <p class="help-block" ng-bind="error.passportexpirydate" ng-if="error.passportexpirydate"></p>
+        </div>
+        <br>
+        <div class="form-group" show-errors="">
+            <button type="button" class="btn btn-primary">Cancel</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+
+    </div><!-- end tab four -->
+    </div>
+    </form>
+    </div>
+    </div>
+    </div><!--  column 12 -->
+</div>
+
+</section>

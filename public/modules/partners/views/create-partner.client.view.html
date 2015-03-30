@@ -1,0 +1,243 @@
+<section data-ng-controller="PartnersController" ng-init="init()" last-action title="Create Partner" url="partner/create">
+    <script type="text/ng-template" id="payoutMethodForm">
+        <div class="modal-header">
+            <h3 class="modal-title">{{local.PayoutMethod[lang]}}</h3>
+        </div>
+        <div class="modal-body">
+            <div class="form-group seventyfive">
+                <label for="name">{{local.PayoutMethodName[lang]}}</label>
+                <input type="text" class="form-control" ng-model="data.name" id="name" name="name" placeholder="{{local.PayoutMethodName[lang]}}">
+            </div>
+            <div class="form-group twentyfive">
+                <label for="partner_fee">{{local.PartnerFee[lang]}}</label>
+                <input type="number" class="form-control" ng-model="data.partner_fee" id="partner_fee" name="partner_fee" placeholder="{{local.PartnerFee[lang]}}">
+            </div>
+            <div class="form-group twentyfive">
+                <label for="gochannel_fee">{{local.GoChannelFee[lang]}}</label>
+                <input type="number" class="form-control" ng-model="data.gochannel_fee" id="gochannel_fee" name="gochannel_fee" placeholder="{{local.GoChannelFee[lang]}}">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="billerForm">
+        <div class="modal-header">
+            <h3 class="modal-title">{{local.Billers[lang]}}</h3>
+        </div>
+        <div class="modal-body">
+            <div class="form-group seventyfive">
+                <label for="name">{{local.BillerName[lang]}}</label>
+                <input type="text" class="form-control" ng-model="data.name" id="name" name="name" placeholder="{{local.BillerName[lang]}}">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Add Partner</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+    <div ng-if="error" class="col-lg-12">
+        <div class="row">
+            <div class="goalertmsg">
+                <ul> <i class="fa fa-warning"></i> Please complete the following fields
+                    <li ng-repeat="err in error">{{err}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- main content-->
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-7">
+            <div class="panel panel-default">
+
+                <div class="panel-heading">
+                    <h3 class="panel-title">Add Partner</h3>
+                </div>
+                <div class="panel-body">
+
+                    <form name="frmPartner" novalidate="" role="form" ng-submit="create()">
+                        <tabset>
+                            <tab heading="Profile">
+
+                                <div class="form-group seventyfive" show-errors="">
+                                    <label for="name">{{local.PartnerName[lang]}}</label>
+                                    <input required type="text" class="form-control" ng-model="partner.name" id="name" name="name" placeholder="{{local.PartnerName[lang]}}">
+                                    <p class="help-block" ng-bind="error.name" ng-if="error.name"></p>
+                                </div>
+                                <div class="form-group" show-errors="">
+                                    <label for="address1">{{local.Address1[lang]}}</label>
+                                    <input required type="text" class="form-control" ng-model="partner.address1" id="address1" name="address1" placeholder="{{local.Address1[lang]}}">
+                                    <p class="help-block" ng-bind="error.address1" ng-if="error.address1"></p>
+                                </div>
+                                <div class="form-group" show-errors="">
+                                    <label for="address2">{{local.Address2[lang]}}</label>
+                                    <input type="text" class="form-control" ng-model="partner.address2" id="address2" name="address2" placeholder="{{local.Address2[lang]}}">
+                                    <p class="help-block" ng-bind="error.address2" ng-if="error.address2"></p>
+                                </div>
+                                <div class="form-group fifty" show-errors="">
+                                    <label for="email">{{local.Email[lang]}}</label>
+                                    <input required type="email" class="form-control" ng-model="partner.email" id="email" name="email" placeholder="{{local.Email[lang]}}">
+                                    <p class="help-block" ng-bind="error.email" ng-if="error.email"></p>
+                                </div>
+                                <div class="form-group fifty" show-errors="">
+                                    <label for="phone">{{local.Phone[lang]}}</label>
+                                    <input required type="phone" class="form-control" ng-model="partner.phone" id="phone" name="phone" placeholder="{{local.Phone[lang]}}">
+                                    <p class="help-block" ng-bind="error.phone" ng-if="error.phone"></p>
+                                </div>
+                                <div class="form-group fifty" show-errors="">
+                                    <label for="fax">{{local.Fax[lang]}}</label>
+                                    <input type="phone" class="form-control" ng-model="partner.fax" id="fax" name="fax" placeholder="{{local.Fax[lang]}}">
+                                </div>
+                                <div class="form-group fifty" show-errors="">
+                                    <label for="mobile">{{local.Mobile[lang]}}</label>
+                                    <input type="phone" class="form-control" ng-model="partner.mobile" id="mobile" name="mobile" placeholder="{{local.Mobile[lang]}}">
+                                </div>
+                                <div class="form-group fifty" show-errors="">
+                                    <label for="city">{{local.City[lang]}}</label>
+                                    <input required type="text" class="form-control" ng-model="partner.city" id="city" name="city" placeholder="{{local.City[lang]}}">
+                                    <p class="help-block" ng-bind="error.city" ng-if="error.city"></p>
+                                </div>
+                                <div class="form-group fifty" show-errors="">
+                                    <label for="country">{{local.Country[lang]}}</label>
+                                    <select required ng-model="partner.country" name="country" id="country" class="form-control">
+                                        <option ng-repeat="country in countries" value="{{country._id}}">{{country.name}}</option>
+                                    </select>
+                                    <p class="help-block" ng-bind="error.country" ng-if="error.country"></p>
+                                </div>
+                                <div class="form-group fifty" show-errors="">
+                                    <label for="zipcode">{{local.ZipCode[lang]}}</label>
+                                    <input required type="text" class="form-control" ng-model="partner.zipcode" id="zipcode" name="zipcode" placeholder="{{local.ZipCode[lang]}}">
+                                    <p class="help-block" ng-bind="error.zipcode" ng-if="error.zipcode"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="notes">{{local.Notes[lang]}}</label>
+                                    <textarea ng-model="partner.notes" id="notes" name="notes" class="form-control" rows="3"></textarea>
+                                </div>
+
+                                <div class="form-group fifty">
+                                    <label for="partner_type">{{local.PartnerType[lang]}}</label>
+                                    <select ng-model="partner.partner_type" name="partner_type" id="partner_type" class="form-control">
+                                        <option value="{{local.Remittance.en_us}}">{{local.Remittance[lang]}}</option>
+                                        <option value="{{local.RemittanceOnly.en_us}}">{{local.RemittanceOnly[lang]}}</option>
+                                        <option value="{{local.MicroFinance.en_us}}">{{local.MicroFinance[lang]}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" ng-show="partner.partner_type===local.Remittance.en_us">
+                                    <h5>{{local.Billers[lang]}}<span><a href="" ng-click="openBillerForm({})" class="btn"><i class="fa fa-plus"></i> Add</a></span></h5>
+
+                                    <table class="table table-bordered table-striped table-hover">
+                                        <thead>
+                                        <tr>
+                                            <td>{{local.BillerName[lang]}}</td>
+                                            <td>{{local.Action[lang]}}</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="biller in partner.biller_link">
+                                            <td>{{biller.name}}</td>
+                                            <td class="action">
+                                                <a ng-click="openBillerForm(biller)" href="" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
+                                                <a ng-click="removeBiller(biller)" href="" data-toggle="modal" class="btn btn-primary btn-xs"><i class="fa fa-trash-o"></i></a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div ng-show="partner.biller_link.length===0" class="alert alert-info alert-dismissable">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        {{local.NoDataAvailable[lang]}}
+                                    </div>
+                                </div>
+
+                            </tab><!-- end tab one -->
+                            <tab heading="Services" ng-show="partner.partner_type">
+                                <div class="form-group" ng-show="partner.partner_type!==local.Microfinance.en_us">
+                                    <h4>{{local.Remittances[lang]}}</h4>
+                                    <h5>{{local.PayoutMethod[lang]}}<span><a href="" ng-click="open({})" class="btn"><i class="fa fa-plus"></i> Add</a></span></h5>
+
+                                    <table class="table table-bordered table-striped table-hover">
+                                        <thead>
+                                        <tr>
+                                            <td>{{local.PayoutMethodName[lang]}}</td>
+                                            <td>{{local.PartnerFee[lang]}}</td>
+                                            <td>{{local.GoChannelFee[lang]}}</td>
+                                            <td>{{local.Action[lang]}}</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="method in partner.payout_method">
+                                            <td>{{method.name}}</td>
+                                            <td>{{method.partner_fee}}</td>
+                                            <td>{{method.gochannel_fee}}</td>
+                                            <td class="action">
+                                                <a ng-click="open(method)" href="" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
+                                                <a ng-click="removePayoutMethod(method)" href="" data-toggle="modal" class="btn btn-primary btn-xs"><i class="fa fa-trash-o"></i></a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div ng-show="partner.payout_method.length===0" class="alert alert-info alert-dismissable">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        {{local.NoDataAvailable[lang]}}
+                                    </div>
+                                    <hr>
+                                </div>
+                                <div ng-if="partner.partner_type===local.Remittance.en_us">
+                                    <h4>{{local.BillPayment[lang]}}</h4>
+                                    <h5>{{local.AddedFees[lang]}}</h5>
+
+
+                                    <div class="form-group twentyfive">
+                                        <label for="gochannel_fee">{{local.GoChannelFee[lang]}}</label>
+                                        <input type="text" class="form-control" ng-model="partner.gochannel_fee" id="gochannel_fee" name="gochannel_fee" placeholder="Input field">
+                                    </div>
+
+                                    <div class="form-group twentyfive">
+                                        <label for="partner_fee">{{local.PartnerFee[lang]}}</label>
+                                        <input type="text" class="form-control" ng-model="partner.partner_fee" id="partner_fee" name="partner_fee" placeholder="Input field">
+                                    </div>
+                                </div>
+
+                            </tab><!-- end tab two -->
+                        </tabset>
+                        <br>
+                        <a href="#!/partners" class="btn btn-danger">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+
+                </div>
+            </div>
+        </div><!--  column 12 -->
+    </div>
+
+    <!--<div class="page-header">-->
+        <!--<h1>New Partner</h1>-->
+    <!--</div>-->
+    <!--<div class="col-md-12">-->
+        <!--<form class="form-horizontal" data-ng-submit="create()" novalidate>-->
+            <!--<fieldset>-->
+                <!--<div class="form-group">-->
+                    <!--<label class="control-label" for="name">Name</label>-->
+                    <!--<div class="controls">-->
+                        <!--<input type="text" data-ng-model="name" id="name" class="form-control" placeholder="Name" required>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<input type="submit" class="btn btn-default">-->
+                <!--</div>-->
+				<!--<div data-ng-show="error" class="text-danger">-->
+					<!--<strong data-ng-bind="error"></strong>-->
+				<!--</div>-->
+            <!--</fieldset>-->
+        <!--</form>-->
+    <!--</div>-->
+</section>

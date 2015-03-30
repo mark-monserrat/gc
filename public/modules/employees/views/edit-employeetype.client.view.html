@@ -1,0 +1,68 @@
+<section data-ng-controller="EmployeetypesController" data-ng-init="findOne()">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Edit Employee Type</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+
+
+    <!-- main content-->
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Edit Employee Type</h3>
+                </div>
+                <div class="panel-body">
+                    <div ng-if="error" class="col-lg-12">
+                        <div class="row">
+                            <div class="goalertmsg">
+                                <ul> <i class="fa fa-warning"></i> Please complete the following fields
+                                    <li ng-repeat="err in error">{{err}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <form name="frmEmployeeType" role="form" data-ng-submit="update()" novalidate>
+                            <div class="form-group fifty" show-errors="">
+                                <label for="name">{{local.EmployeeType[lang]}}</label>
+                                <input required type="text" ng-model="employeetype.name" class="form-control" id="name" name="name" placeholder="{{local.EmployeeType[lang]}}">
+                                <p class="help-block" ng-if="frmEmployeeType.name.$error.required">Employee Type name is required</p>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="checkbox lead" ng-repeat="module in modules">
+                                    <label>
+                                        <input ng-change="updateEmployee(module)" type="checkbox" ng-model="module.checked"> {{module[lang]}}
+                                    </label>
+
+                                    <div class="checkbox" ng-repeat="submodule in module.privileges">
+                                        <label>
+                                            <input ng-disabled="!module.checked" ng-change="updateEmployee(submodule, module)" type="checkbox" ng-model="submodule.checked"> {{submodule[lang]}}
+                                        </label>
+
+                                        <div class="checkbox" ng-repeat="submodule_item in submodule.privileges">
+                                            <label>
+                                                <input ng-disabled="!submodule.checked" ng-change="updateEmployee(submodule_item, submodule)" type="checkbox" ng-model="submodule_item.checked"> {{submodule_item[lang]}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        <div class="col-xs-12">
+                            <br>
+                            <button type="submit" class="btn btn-primary">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div><!--  column 12 -->
+    </div>
+</section>

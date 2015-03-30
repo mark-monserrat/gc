@@ -1,0 +1,88 @@
+<section data-ng-controller="SystemController" ng-init="find()">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">System</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+
+
+    <!-- main content-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default withtable">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Audit Trails</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row tableoptions">
+                        <div class="col-md-12">
+
+                            <form class="form-inline pull-right" role="form">
+                                <div class="form-group tablesearch">
+                                    <div class="input-group custom-search-form">
+                                        <input type="text" class="form-control" placeholder="Search...">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </span>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+
+
+
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th><a href="" ng-click="sortBy('tablename')">Table Name <i class="fa" ng-class="{'fa-sort':sort!='tablename','fa-sort-asc':sort=='tablename'&&by,'fa-sort-desc':sort=='tablename'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('record_id')">Record ID <i class="fa" ng-class="{'fa-sort':sort!='tablename','fa-sort-asc':sort=='tablename'&&by,'fa-sort-desc':sort=='tablename'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('date_created')">{{local.DateCreated[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='date_created','fa-sort-asc':sort=='date_created'&&by,'fa-sort-desc':sort=='date_created'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('user.first_name')">{{local.Name[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='user.first_name','fa-sort-asc':sort=='user.first_name'&&by,'fa-sort-desc':sort=='user.first_name'&&!by}"></i></a></th>
+                            <th>Changes</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-ng-repeat="audittrail in audittrails">
+                            <td>{{audittrail.tablename}}</td>
+                            <td>{{audittrail.record_id}}</td>
+                            <td>{{audittrail.date_created | date:'MMM dd yyyy H:mm'}}</td>
+                            <td>{{audittrail.user.first_name}} {{audittrail.user.last_name}}</td>
+                            <td>
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                    <th>Field</th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    </thead>
+                                    <tr ng-repeat="changes in audittrail.changes">
+                                        <td>{{changes.field}}</td>
+                                        <td>{{changes.from | limitTo:20}}</td>
+                                        <td>{{changes.to | limitTo:20}}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div ng-if="employees.length==0" class="alert alert-info alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        No data available.
+                    </div>
+                    <pagination ng-show="totalItems>pageLimit" class="pull-right" ng-change="populate()" boundary-links="true" items-per-page="pageLimit" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                </div>
+            </div>
+        </div><!--  column 12 -->
+    </div>
+
+
+
+    </div>
+</section>

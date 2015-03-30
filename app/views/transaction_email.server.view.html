@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+{{subject}}
+<br />
+<table>
+    <tr>
+        <th>Member Name</th>
+        <th>Amount</th>
+        {% if transaction.transaction_type === 'TOPUP' || transaction.transaction_type === 'LOAN PAYMENT' %}
+        <th ng-show="transaction.bank_name">Bank Name</th>
+        <th ng-show="transaction.deposit_date">Deposit Date</th>
+        <th ng-show="transaction.slip_refno">Slip Reference No</th>
+        <th ng-show="transaction.payment_type">Payment Type</th>
+        {% endif %}
+        {% if transaction.transaction_type === 'BILLS PAYMENT' %}
+        <th ng-show="transaction.paid_bill_to">Paid Bill to</th>
+        <th ng-show="transaction.account_number">Account Number</th>
+        <th ng-show="transaction.account_name">Account Name</th>
+        {% endif %}
+    </tr>
+    <tr>
+        <td>{{member.first_name}} {{member.last_name}}</td>
+        <td>{{transaction.amount.value}}</td>
+        {% if transaction.transaction_type === 'TOPUP' || transaction.transaction_type === 'LOAN PAYMENT' %}
+        <td ng-show="transaction.bank_name">{{transaction.bank_name}}</td>
+        <td ng-show="transaction.deposit_date">{{transaction.deposit_date|date('MMM dd yyyy')}}</td>
+        <td ng-show="transaction.slip_refno">{{transaction.slip_refno}}</td>
+        <td ng-show="transaction.payment_type">{{transaction.payment_type}}</td>
+        {% endif %}
+
+        {% if transaction.transaction_type === 'BILLS PAYMENT' %}
+        <td ng-show="transaction.paid_bill_to_name">{{transaction.paid_bill_to_name}}</td>
+        <td ng-show="transaction.account_number">{{transaction.account_number}}</td>
+        <td ng-show="transaction.account_name">{{transaction.account_name}}</td>
+        {% endif %}
+    </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<section data-ng-controller="TransactionsController" ng-init="findRemittances()" last-action title="Remittance Listing" url="transactions/list-remittances">
+<script type="text/ng-template" id="TransactionDetails">
+    <div class="modal-header">
+        <h3 class="modal-title">{{local.TransactionDetails[lang]}}</h3>
+    </div>
+    <div class="modal-body">
+        <table class="table sum">
+            <thead>
+            <tr>
+                <th colspan="2">Details</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr ng-show="data.transaction_type==='REMITTANCE'">
+                <td class="subm">Sent to:</td>
+                <td>{{data.remitted_to_name}} {{data.remitted_to.last_name}}</td>
+            </tr>
+            <tr ng-show="data.transaction_type==='REMITTANCE' && data.recipient_type=='beneficiary'">
+                <td>Payout Method:</td>
+                <td>{{data.payout_method.name}}</td>
+            </tr>
+
+            <tr ng-show="data.transaction_type==='LOAN PAYMENT'">
+                <td>{{local.AccountNumber[lang]}}</td>
+                <td>{{data.account_number}}</td>
+            </tr>
+            <tr>
+                <td>{{local.Amount[lang]}}</td>
+                <td>{{data.amount}}</td>
+            </tr>
+            <tr ng-show="data.transaction_type==='LOAN PAYMENT'">
+                <td>{{local.PaymentType[lang]}}</td>
+                <td>{{data.payment_type}}</td>
+            </tr>
+
+            <tr ng-show="data.transaction_type==='BILLS PAYMENT'">
+                <td>Fee: </td>
+                <td>{{parseFloat(user.remittance.partner_fee) + parseFloat(user.remittance.gochannel_fee)}} PTS</td>
+            </tr>
+            <tr ng-show="data.transaction_type==='BILLS PAYMENT'">
+                <td><b>TOTAL:</b></td>
+                <td><b>{{parseFloat(data.amount)+parseFloat(user.remittance.partner_fee) + parseFloat(user.remittance.gochannel_fee)}} PTS</b></td>
+            </tr>
+            <tr ng-show="data.transaction_type==='BILLS PAYMENT'">
+                <td>Paid to:</td>
+                <td>{{data.paid_bill_to.biller.name}}</td>
+            </tr>
+            <tr ng-show="data.transaction_type==='BILLS PAYMENT'">
+                <td>Account Name:</td>
+                <td>{{data.account_name}}</td>
+            </tr>
+            <tr ng-show="data.transaction_type==='BILLS PAYMENT'">
+                <td>Account Number:</td>
+                <td>{{data.account_number}}</td>
+            </tr>
+
+            <tr ng-show="data.transaction_type==='BILLS PAYMENT'">
+                <td>Fee: </td>
+                <td>{{parseFloat(user.remittance.partner_fee) + parseFloat(user.remittance.gochannel_fee)}} PTS</td>
+            </tr>
+            <tr ng-show="data.transaction_type==='BILLS PAYMENT'">
+                <td><b>TOTAL:</b></td>
+                <td><b>{{parseFloat(data.amount)+parseFloat(user.remittance.partner_fee) + parseFloat(user.remittance.gochannel_fee)}} PTS</b></td>
+            </tr>
+
+
+            <tr ng-show="data.transaction_type==='TOPUP'">
+                <td>Payment Type:</td>
+                <td>{{data.payment_type}}</td>
+            </tr>
+            <tr>
+                <td>{{local.ReferenceCode[lang]}}</td>
+                <td>{{data.reference_no}}</td>
+            </tr>
+            <tr>
+                <td>{{local.TransactionDate[lang]}}</td>
+                <td>{{data.date_created | date:'MMM dd yyyy H:mm'}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+    </div>
+</script>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Remittances</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+
+
+    <!-- main content-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default withtable">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Transaction List</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row tableoptions">
+                        <div class="col-md-12">
+                            <div class="form-group fifty">
+                                <label for="partner">{{local.PartnerName[lang]}}</label>
+                                <select class="form-control" name="partner" id="partner" data-ng-model="partner">
+                                    <option ng-repeat="partner in remittance_partners" value="{{partner._id}}">{{partner.name}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="transaction_date_from">{{local.DateDuration[lang]}}</label>
+
+                                <ul class="transdate">
+                                        <li>
+                                           <input id="transaction_date_from" data-ng-model="transaction_date_from" class="form-control" type="date"/>
+                                        </li>
+                                        <li>
+                                            <p>to</p>
+                                        </li>
+                                        <li>
+                                           <input data-ng-model="transaction_date_to" class="form-control" type="date"/>
+                                        </li>
+                                    </ul>
+
+                            </div>
+
+                            <div class="form-group tablesearch">
+                                <label for="member">{{local.MemberName[lang]}}</label>
+                                <div class="input-group custom-search-form">
+                                    <angucomplete id="member" placeholder="Search member" pause="300" selectedobject="selectedPerson" localdata="members" searchfields="first_name,last_name" titlefield="first_name,last_name" descriptionfield="email" imagefield="ProfilePic" minlength="1" inputclass="form-control" matchclass="highlight" />
+                                            <span class="input-group-btn">
+                                                <button ng-click="populate()" class="btn btn-default" type="button">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row tableoptions">
+                        <div class="col-md-12">
+
+                            <form class="form-inline pull-right" role="form">
+
+                                <div class="form-group">
+                                    <select ng-change="statusFilter()" name="status" id="status" ng-model="status" class="form-control input-sm">
+                                        <option value="Pending">{{local.StatusPending[lang]}}</option>
+                                        <option value="Cleared">{{local.StatusCleared[lang]}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group tablesearch">
+                                    <div class="input-group custom-search-form">
+                                        <input type="text" ng-model="wildcard_search" class="form-control" placeholder="Search...">
+                                        <span class="input-group-btn">
+                                            <button ng-click="statusFilter()" class="btn btn-default" type="button">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th><a href="" ng-click="sortBy('date_created')">{{local.DateCreated[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='date_created','fa-sort-asc':sort=='date_created'&&by,'fa-sort-desc':sort=='date_created'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('reference_no')">{{local.ReferenceCode[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='reference_no','fa-sort-asc':sort=='reference_no'&&by,'fa-sort-desc':sort=='reference_no'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('member_name')">{{local.SenderName[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='member_name','fa-sort-asc':sort=='member_name'&&by,'fa-sort-desc':sort=='member_name'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('remitted_to_name')">{{local.RecipientName[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='remitted_to_name','fa-sort-asc':sort=='remitted_to_name'&&by,'fa-sort-desc':sort=='remitted_to_name'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('amount')">{{local.Amount[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='amount','fa-sort-asc':sort=='amount'&&by,'fa-sort-desc':sort=='amount'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('status')">{{local.TransactionListStatus[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='status','fa-sort-asc':sort=='status'&&by,'fa-sort-desc':sort=='status'&&!by}"></i></a></th>
+                            <th><a href="" ng-click="sortBy('date_modified')">{{local.DateModified[lang]}} <i class="fa" ng-class="{'fa-sort':sort!='date_updated','fa-sort-asc':sort=='date_updated'&&by,'fa-sort-desc':sort=='date_updated'&&!by}"></i></a></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="transaction in transactions">
+                            <td>{{transaction.date_created | date:'MMM dd yyyy H:mm'}}</td>
+                            <td><a href="" ng-click="open_transaction(transaction)">{{transaction.reference_no}}</a></td>
+                            <td>{{transaction.member_name}}</td>
+                            <td>{{transaction.remitted_to_name}}</td>
+                            <td>{{transaction.amount}}</td>
+                            <td>
+                                <p ng-hide="transaction.status==='Pending'">{{transaction.status}}</p>
+                                <div class="btn-group" ng-show="transaction.status==='Pending'">
+                                    <label ng-click="update(transaction,local.StatusCleared[lang])" ng-confirm-click="Are you sure you want to clear this transaction?" class="btn btn-primary btn-xs" ng-model="transaction.status" btn-radio="local.StatusCleared[lang]">{{local.StatusClear[lang]}}</label>
+                                </div>
+                            </td>
+                            <td>{{transaction.date_updated | date:'MMM dd yyyy H:mm'}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div ng-if="transactions.length==0" class="alert alert-info alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        No data available.
+                    </div>
+                    <pagination ng-show="totalItems>pageLimit" class="pull-right" ng-change="populate()" boundary-links="true" items-per-page="pageLimit" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                </div>
+            </div>
+        </div><!--  column 12 -->
+    </div>
+
+
+
+    </div>
+    <!-- /#page-wrapper -->
+</section>
